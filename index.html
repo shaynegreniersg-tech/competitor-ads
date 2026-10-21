@@ -1,0 +1,303 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Canada Drives: Static Image Ads by Angle</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e5e7eb;--acc:#2563eb}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:14.5px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1440px;margin:0 auto;padding:0 24px}
+a{color:var(--acc)}
+.hero{background:linear-gradient(135deg,#0b1224,#1e3a8a 70%,#3b0764);color:#fff;padding:30px 0 24px}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:11.5px;opacity:.7;margin:0 0 6px}
+.hero h1{margin:0;font-size:30px;line-height:1.2}.hero .sub{opacity:.8;margin:6px 0 18px}
+.stats{display:flex;flex-wrap:wrap;gap:10px}.stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 16px}
+.stat b{display:block;font-size:21px}.stat span{font-size:11.5px;opacity:.75}
+/* controls */
+.controls{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.crow{display:flex;gap:10px;align-items:center;padding:10px 0 6px;flex-wrap:wrap}
+.search{flex:1 1 280px;position:relative}.search input{width:100%;padding:8px 12px 8px 32px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#f8fafc}
+.search:before{content:"⌕";position:absolute;left:11px;top:5px;font-size:17px;color:var(--mut)}
+select,button.btn{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;color:var(--ink)}
+button.btn:hover{border-color:#94a3b8}button.btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.count{font-size:13px;color:var(--mut);white-space:nowrap}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:thin}
+.chip{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:600;background:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--ink)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c,#0f172a)}.chip b{font-size:11px;color:var(--mut);font-weight:600}
+.chip.on{background:var(--c,#0f172a);border-color:var(--c,#0f172a);color:#fff}.chip.on i{background:#fff}.chip.on b{color:rgba(255,255,255,.85)}
+#tagpanel{display:none;border-top:1px solid var(--line);padding:10px 0 12px;max-height:46vh;overflow:auto}#tagpanel.open{display:block}
+.tgroup{margin-bottom:8px}.tgroup h4{margin:0 0 5px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+.tgroup .tl{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:#fff;cursor:pointer}
+.tchip.on{background:#1e293b;color:#fff;border-color:#1e293b}.tchip b{color:var(--mut);font-weight:500;margin-left:3px}.tchip.on b{color:#cbd5e1}
+.active{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 8px}.active:empty{display:none}
+.active span{font-size:12px;background:#e0e7ff;color:#3730a3;border-radius:999px;padding:2px 9px;cursor:pointer}
+/* summary */
+.summary{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin:22px 0 8px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;min-width:0}
+.panel h2{margin:0 0 12px;font-size:15.5px}.p-angles{grid-column:span 5}.p-take{grid-column:span 7}
+.p-fmt,.p-off,.p-misc{grid-column:span 4}.p-new{grid-column:span 12}
+.abar{display:grid;grid-template-columns:minmax(0,1fr) 54px;gap:2px 10px;align-items:center;margin-bottom:9px;cursor:pointer}
+.abar .nm{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.abar .nums{grid-row:span 2;text-align:right;font-size:12px;color:var(--mut);line-height:1.25}.abar .nums b{color:var(--ink);font-size:14px}
+.track{height:12px;background:#eef0f5;border-radius:99px;position:relative;overflow:hidden}
+.track .t{position:absolute;inset:0 auto 0 0;border-radius:99px;opacity:.35}.track .u{position:absolute;inset:0 auto 0 0;border-radius:99px}
+.abar:hover .nm{text-decoration:underline}
+.legend{font-size:11.5px;color:var(--mut);margin:4px 0 0;display:flex;gap:14px}.legend i{display:inline-block;width:18px;height:8px;border-radius:9px;background:#475569;vertical-align:middle;margin-right:4px}.legend i.l{opacity:.35}
+.tk{margin:0;padding-left:18px}.tk li{margin-bottom:7px}
+.hbar{display:grid;grid-template-columns:minmax(0,1fr) 90px 28px;gap:8px;align-items:center;font-size:12.5px;margin-bottom:6px;cursor:pointer}
+.hbar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hbar .tr{height:8px;background:#eef0f5;border-radius:9px;overflow:hidden}.hbar .tr i{display:block;height:100%;background:#475569;border-radius:9px}
+.hbar b{text-align:right;font-weight:600}.hbar:hover span{text-decoration:underline}
+.sub-h{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:12px 0 6px}
+.scope{font-size:11.5px;color:var(--mut);margin-top:10px}
+.newest{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.nw{cursor:pointer;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;font-size:12px}
+.nw img{width:100%;height:120px;object-fit:cover;display:block;background:#111}.nw div{padding:6px 8px}.nw b{display:block}
+.nw .an{display:block;color:var(--c);font-weight:600;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nw .muted{display:block;font-size:11px}
+.nw:hover{box-shadow:0 6px 16px rgba(15,23,42,.1)}
+/* sections & cards */
+section.ang{margin:30px 0 8px;scroll-margin-top:120px}
+.sh{border-left:5px solid var(--c);padding:3px 0 3px 14px;margin-bottom:16px}
+.sh h2{margin:0 0 3px;font-size:21px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{background:var(--c);color:#fff;font-size:12px;border-radius:999px;padding:1px 10px;font-weight:600}
+.pill.lt{background:color-mix(in srgb,var(--c) 14%,#fff);color:color-mix(in srgb,var(--c) 70%,#000)}
+.sh p{margin:2px 0;max-width:1000px;color:#334155}.sh .hook{color:var(--mut);font-size:13.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,.04);transition:box-shadow .15s,transform .15s}
+.card:hover{box-shadow:0 10px 24px rgba(15,23,42,.09);transform:translateY(-2px)}
+.card.flash{animation:fl 1.6s}@keyframes fl{0%,40%{box-shadow:0 0 0 4px var(--c)}}
+.iw{position:relative;background:#0b0b0b;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;cursor:zoom-in}
+.iw img{max-width:100%;max-height:100%;display:block}
+.rk{position:absolute;left:8px;top:8px;background:rgba(15,23,42,.85);color:#fff;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px}
+.dupb{position:absolute;right:8px;top:8px;background:#f59e0b;color:#1f1300;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.lowb{position:absolute;left:8px;bottom:8px;background:#e2e8f0;color:#334155;font-size:10.5px;padding:2px 6px;border-radius:5px}
+.body{padding:12px 15px 14px}
+.angl{font-size:11px;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.body h3{margin:0 0 6px;font-size:15.5px;line-height:1.3}
+.itx{font-size:12.5px;color:#475569;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:8px;padding:6px 8px;margin:0 0 8px}
+.itx b{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-right:4px}
+.cap{font-size:12px;color:var(--mut);margin:0 0 6px}
+.pt{font-size:13px;color:#334155;margin:0 0 8px;white-space:pre-line}
+.pt.clip{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.more{background:none;border:0;color:var(--acc);font-weight:600;font-size:12px;padding:0;cursor:pointer;margin:-4px 0 8px}
+.var{font-size:12px;margin:0 0 8px}.var summary{cursor:pointer;color:var(--acc);font-weight:600}.var p{white-space:pre-line;color:#334155;border-left:3px solid var(--line);padding-left:8px;margin:6px 0}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 10px}
+.tag{font-size:11px;border-radius:99px;padding:1px 8px;border:1px solid #e2e8f0;background:#f8fafc;color:#334155;cursor:pointer}
+.tag.offer{background:#fef2f2;border-color:#fecaca;color:#991b1b}.tag.seasonal{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}.tag.geo{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;margin:0 0 10px;padding:9px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta div{min-width:0}.meta .w{grid-column:1/-1}.meta dt{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}.meta dd{margin:0;font-weight:600;font-size:12.5px;overflow-wrap:anywhere}
+.ids{font-size:12.5px}.ids summary{cursor:pointer;font-weight:600;color:var(--acc)}
+.ids table{width:100%;border-collapse:collapse;margin-top:6px;font-size:11.5px}.ids td{padding:3px 4px;border-top:1px solid #f1f5f9}.ids td:first-child{font-family:ui-monospace,Menlo,monospace}
+.lib{font-size:12.5px;font-weight:600;text-decoration:none}.lib code{font-size:11px;color:var(--mut);font-weight:400;margin-left:4px}
+.muted{color:var(--mut);font-weight:400}
+.empty{padding:60px 0;text-align:center;color:var(--mut)}
+footer{color:var(--mut);font-size:12px;padding:30px 0 50px}
+#live{position:fixed;right:14px;bottom:14px;z-index:40;background:rgba(15,23,42,.88);color:#e2e8f0;font-size:12px;padding:6px 11px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+#live i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#94a3b8;margin-right:6px;vertical-align:middle}#live.on i{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)}#live.err i{background:#f59e0b}
+#toast{position:fixed;left:50%;top:18px;transform:translate(-50%,-30px);opacity:0;transition:.35s;z-index:120;background:#16a34a;color:#fff;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#lb{position:fixed;inset:0;background:rgba(2,6,23,.92);display:none;z-index:100;align-items:center;justify-content:center}
+#lb.on{display:flex}#lb figure{margin:0;max-width:96vw;display:flex;flex-direction:column;align-items:center}
+#lb img{max-width:92vw;max-height:84vh;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.6);cursor:zoom-out}
+#lb figcaption{color:#e2e8f0;font-size:13px;margin-top:10px;text-align:center;max-width:800px}
+#lb .x,#lb .nav{position:absolute;color:#fff;background:rgba(255,255,255,.12);border:0;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer}
+#lb .x{top:14px;right:16px}#lb .prev{left:16px;top:50%}#lb .next{right:16px;top:50%}
+@media(max-width:1100px){.p-angles,.p-take{grid-column:span 12}.p-fmt,.p-off,.p-misc{grid-column:span 6}}
+@media(max-width:720px){.p-fmt,.p-off,.p-misc{grid-column:span 12}.hero h1{font-size:23px}.wrap{padding:0 14px}.grid{grid-template-columns:1fr}}
+</style></head><body>
+<div class="hero"><div class="wrap">
+  <p class="eyebrow">Competitor ad teardown · Facebook Ad Library</p>
+  <h1 id="h1"></h1><p class="sub" id="sub"></p><div class="stats" id="stats"></div>
+</div></div>
+<div class="controls"><div class="wrap">
+  <div class="crow">
+    <div class="search"><input id="q" type="search" placeholder="Search copy, headlines, on-image text, IDs… (e.g. $170, repo, Alberta)"></div>
+    <select id="sort" title="Sort">
+      <option value="rank">Sort: impression rank (best first)</option>
+      <option value="newest">Sort: newest start date</option>
+      <option value="oldest">Sort: oldest start date</option>
+      <option value="ads">Sort: most ads using image</option>
+      <option value="versions">Sort: most versions</option>
+    </select>
+    <button class="btn on" id="grp" title="Group cards into angle sections">Group by angle</button>
+    <button class="btn" id="tagbtn">Tags ▾</button>
+    <button class="btn" id="reset">Reset</button>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="active" id="active"></div>
+  <div class="chips" id="chips"></div>
+  <div id="tagpanel"></div>
+</div></div>
+<main class="wrap">
+  <div class="summary" id="summary"></div>
+  <div id="results"></div>
+  <footer id="foot"></footer>
+</main>
+<div id="live" title=""><i></i><span>Loading…</span></div><div id="toast"></div>
+<div id="lb"><button class="x" title="Close (Esc)">×</button><button class="nav prev" title="Previous (←)">‹</button><button class="nav next" title="Next (→)">›</button>
+<figure><img alt=""><figcaption></figcaption></figure></div>
+<script>
+let D,TH,FU,A={},CR={};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtD=t=>{if(!t)return'—';const d=new Date(t+'T12:00:00');return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+const S={angle:null,tags:new Set(),q:'',sort:'rank',group:true};
+function setData(d){
+D=d;TH=d.thumbs||{};FU=d.full||{};A={};CR={};D.angles.forEach(a=>A[a.key]=a);D.creatives.forEach(c=>CR[c.cid]=c);
+D.creatives.forEach(c=>{c._s=[c.headlines.join(' '),c.texts.join(' '),c.captions.join(' '),c.image_text,c.ctas.join(' '),c.landings.join(' '),Object.values(c.tags).flat().join(' '),A[c.angle].name,c.ads.map(a=>a.id).join(' ')].join(' ').toLowerCase();c._tags=new Set(Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>k+':'+t)))});
+
+const M=D.meta,ST=D.stats;
+document.getElementById('h1').textContent=(M.advertiser||'Competitor')+': Static Image Ads by Angle';
+document.getElementById('sub').textContent=`Facebook page ${M.page_id||''} · ${M.country||''} · Active ads sorted by impressions · Collected ${M.collected||''}`;
+document.getElementById('stats').innerHTML=[[ST.ads,'single-image ads'],[ST.creatives,'unique creatives'],[ST.angles,'angles'],[ST.dup_groups,'images reused by 2+ ads'],[ST.span,'start-date range']].map(([b,s])=>`<div class="stat"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
+
+renderSummary(M,ST);
+document.getElementById('foot').textContent=`Generated by build.py from ads.csv + angles.json. ${ST.ads} ads → ${ST.creatives} unique creatives (identical images grouped by SHA-256). Rank = position in the Ad Library impressions sort among captured single-image ads. Click any image for the full-size view (←/→ to browse).`;
+}
+function hbars(list,cat,max){max=max||Math.max(...list.map(x=>x[1]),1);return list.map(([t,n])=>`<div class="hbar" ${cat?`data-tag="${esc(cat+':'+t)}"`:''} title="${esc(t)}"><span>${esc(t)}</span><span class="tr"><i style="width:${n/max*100}%"></i></span><b>${n}</b></div>`).join('')}
+function renderSummary(M,ST){
+  const maxA=Math.max(...D.angles.map(a=>a.ads));
+  const ab=D.angles.map(a=>`<div class="abar" data-angle="${a.key}" title="${esc(a.name)}: ${a.creatives} unique creatives, ${a.ads} ads; ${a.top10} in top 10, ${a.top50} in top 50"><span class="nm">${esc(a.name)}</span><span class="nums"><b>${a.creatives}</b> / ${a.ads}</span><span class="track"><span class="t" style="width:${a.ads/maxA*100}%;background:${a.color}"></span><span class="u" style="width:${a.creatives/maxA*100}%;background:${a.color}"></span></span></div>`).join('');
+  const tc={};D.tagcats.forEach(t=>tc[t.key]=t);
+  const newest=[...D.creatives].sort((a,b)=>b.newest.localeCompare(a.newest)||a.best_rank-b.best_rank).slice(0,12);
+  const land=D.landing.map(([l,n])=>[l,n]);
+  const months=D.months.map(([m,n])=>[new Date(m+'-15').toLocaleDateString('en-US',{month:'short',year:'numeric'}),n]);
+  document.getElementById('summary').innerHTML=`
+  <div class="panel p-angles"><h2>Angles: unique creatives / total ads</h2>${ab}
+    <div class="legend"><span><i></i>unique creatives</span><span><i class="l"></i>total ads (incl. reused images)</span></div></div>
+  <div class="panel p-take"><h2>Key takeaways</h2><ul class="tk">${(M.takeaways||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul><p class="scope">${esc(M.scope||'')}</p></div>
+  <div class="panel p-fmt"><h2>Top hook formats <span class="muted">(unique creatives)</span></h2>${hbars(tc.format.counts.slice(0,14),'format')}</div>
+  <div class="panel p-off"><h2>Offers & claims <span class="muted">(unique creatives)</span></h2>${hbars(tc.offer.counts,'offer')}
+    <div class="sub-h">Click-through destination (ads)</div>${hbars(land,null)}</div>
+  <div class="panel p-misc"><h2>Seasonal & geo targeting</h2>${hbars(tc.seasonal.counts,'seasonal')}<div class="sub-h">Geo / audience</div>${hbars(tc.geo.counts,'geo')}
+    <div class="sub-h">Ads by start month</div>${hbars(months,null)}</div>
+  <div class="panel p-new"><h2>Newest ads <span class="muted">(most recent start date per creative)</span></h2><div class="newest">${newest.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><img src="${TH[c.cid]||''}" alt=""><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}</div></div>`;
+}
+
+// ---- controls ----
+function renderChips(){
+  const cnt={};D.creatives.forEach(c=>{if(match(c,true))cnt[c.angle]=(cnt[c.angle]||0)+1});
+  document.getElementById('chips').innerHTML=`<button class="chip ${S.angle?'':'on'}" data-angle="" style="--c:#0f172a"><i></i>All angles</button>`+D.angles.map(a=>`<button class="chip ${S.angle===a.key?'on':''}" data-angle="${a.key}" style="--c:${a.color}"><i></i>${esc(a.name)} <b>${cnt[a.key]||0}</b></button>`).join('');
+}
+function renderTagPanel(){
+  document.getElementById('tagpanel').innerHTML=D.tagcats.map(t=>`<div class="tgroup"><h4>${esc(t.label)}</h4><div class="tl">${t.counts.map(([n,c])=>{const k=t.key+':'+n;return`<button class="tchip ${S.tags.has(k)?'on':''}" data-tag="${esc(k)}">${esc(n)}<b>${c}</b></button>`}).join('')}</div></div>`).join('')+`<p class="scope">Selected tags combine with AND. Click any tag on a card to filter by it.</p>`;
+  document.getElementById('active').innerHTML=[...S.tags].map(k=>`<span data-tag="${esc(k)}" title="Remove">${esc(k.split(':').slice(1).join(':'))} ×</span>`).join('');
+  document.getElementById('tagbtn').textContent=`Tags${S.tags.size?` (${S.tags.size})`:''} ▾`;
+}
+function match(c,ignoreAngle){
+  if(!ignoreAngle&&S.angle&&c.angle!==S.angle)return false;
+  for(const t of S.tags)if(!c._tags.has(t))return false;
+  if(S.q){for(const w of S.q.split(/\s+/))if(w&&!c._s.includes(w))return false}
+  return true;
+}
+const sorters={rank:(a,b)=>a.best_rank-b.best_rank,newest:(a,b)=>b.newest.localeCompare(a.newest)||a.best_rank-b.best_rank,oldest:(a,b)=>a.oldest.localeCompare(b.oldest)||a.best_rank-b.best_rank,ads:(a,b)=>b.ads.length-a.ads.length||a.best_rank-b.best_rank,versions:(a,b)=>(b.max_versions||0)-(a.max_versions||0)||a.best_rank-b.best_rank};
+
+function card(c){
+  const a=A[c.angle],n=c.ads.length,main=c.texts[0]||'';
+  const vv=c.texts.slice(1);
+  const tagHtml=Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>`<span class="tag ${k}" data-tag="${esc(k+':'+t)}">${esc(t)}</span>`)).join('');
+  const vers=c.max_versions?`${c.max_versions}`:'—';
+  const dates=c.oldest===c.newest?fmtD(c.newest):`${fmtD(c.oldest)} → ${fmtD(c.newest)}`;
+  const ids=n>1?`<details class="ids"><summary>${n} ads use this image · show IDs</summary><table>${c.ads.map(x=>`<tr><td><a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener">${x.id}</a></td><td>#${x.rank}</td><td>${esc(x.start)}</td><td>${x.versions?x.versions+' ver.':''}${x.low?' · low impr.':''}</td></tr>`).join('')}</table></details>`
+   :`<a class="lib" href="https://www.facebook.com/ads/library/?id=${c.ads[0].id}" target="_blank" rel="noopener">View in Ad Library ↗<code>${c.ads[0].id}</code></a>`;
+  return `<article class="card" id="${c.cid}" style="--c:${a.color}">
+  <div class="iw" data-cid="${c.cid}">${c.img?`<img src="${TH[c.cid]}" alt="${esc(c.image_text||'Ad image')}" loading="lazy" decoding="async">`:'<span class="muted">No image</span>'}
+    <span class="rk" title="Best impression rank among the ads using this image">#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical image file (SHA-256)">${n} ads use this image</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}</div>
+  <div class="body">
+    <div class="angl">${esc(a.name)}</div>
+    <h3>${c.headline?esc(c.headline):'<span class="muted">No headline shown</span>'}</h3>
+    ${c.headlines.length>1?`<p class="cap">Also: ${c.headlines.slice(1).map(esc).join(' · ')}</p>`:''}
+    ${c.image_text?`<div class="itx"><b>On image</b>${esc(c.image_text)}</div>`:''}
+    ${main?`<div class="pt ${main.length>230?'clip':''}">${esc(main)}</div>${main.length>230?'<button class="more">Show full copy</button>':''}`:'<p class="pt muted">No primary text captured</p>'}
+    ${vv.length?`<details class="var"><summary>${vv.length} other copy variant${vv.length>1?'s':''}</summary>${vv.map(t=>`<p>${esc(t)}</p>`).join('')}</details>`:''}
+    ${c.captions.length?`<p class="cap">Link caption: ${esc(c.captions[0])}</p>`:''}
+    <div class="tags">${tagHtml}</div>
+    <dl class="meta">
+      <div><dt>Best rank</dt><dd>#${c.best_rank}</dd></div>
+      <div><dt>Versions</dt><dd>${vers}</dd></div>
+      <div><dt>CTA</dt><dd>${esc(c.ctas.join(' / ')||'—')}</dd></div>
+      <div class="w"><dt>Started</dt><dd>${dates}</dd></div>
+      ${c.landings.length||c.platforms.length?`<div class="w"><dt>Landing · Platforms</dt><dd>${esc(c.landings.join(', ')||'—')} <span class="muted">· ${esc([...new Set(c.platforms.flatMap(p=>p.split('/')))].join(', ')||'—')}</span></dd></div>`:''}
+    </dl>${ids}
+  </div></article>`;
+}
+let visible=[];
+function render(){
+  const list=D.creatives.filter(c=>match(c)).sort(sorters[S.sort]);
+  visible=list.map(c=>c.cid);
+  const nAds=list.reduce((s,c)=>s+c.ads.length,0);
+  document.getElementById('count').textContent=`${list.length} creatives · ${nAds} ads`;
+  let h='';
+  if(!list.length)h='<div class="empty">No creatives match these filters.</div>';
+  else if(S.group){
+    const order=D.angles.map(a=>a.key);
+    order.forEach(k=>{const cs=list.filter(c=>c.angle===k);if(!cs.length)return;const a=A[k];const na=cs.reduce((s,c)=>s+c.ads.length,0);
+      h+=`<section class="ang" id="sec-${k}" style="--c:${a.color}"><header class="sh"><h2>${esc(a.name)} <span class="pill">${cs.length} creative${cs.length>1?'s':''}</span><span class="pill lt">${na} ads</span>${a.top10?`<span class="pill lt">${a.top10} in top 10</span>`:''}</h2><p>${esc(a.description)}</p>${a.hook?`<p class="hook"><b>Hook pattern:</b> ${esc(a.hook)}</p>`:''}</header><div class="grid">${cs.map(card).join('')}</div></section>`});
+    // keep visible order consistent with grouped layout
+    visible=[];order.forEach(k=>list.filter(c=>c.angle===k).forEach(c=>visible.push(c.cid)));
+  } else h=`<div class="grid" style="margin-top:24px">${list.map(card).join('')}</div>`;
+  document.getElementById('results').innerHTML=h;
+  renderChips();renderTagPanel();
+}
+function setAngle(k){S.angle=k||null;render();document.getElementById('results').scrollIntoView({behavior:'smooth'})}
+function toggleTag(k){S.tags.has(k)?S.tags.delete(k):S.tags.add(k);render()}
+let qt;document.getElementById('q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{S.q=e.target.value.trim().toLowerCase();render()},120)});
+document.getElementById('sort').onchange=e=>{S.sort=e.target.value;render()};
+document.getElementById('grp').onclick=e=>{S.group=!S.group;e.target.classList.toggle('on',S.group);render()};
+document.getElementById('tagbtn').onclick=()=>document.getElementById('tagpanel').classList.toggle('open');
+document.getElementById('reset').onclick=()=>{S.angle=null;S.tags.clear();S.q='';document.getElementById('q').value='';render()};
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-tag]');if(t&&!t.closest('#lb')){toggleTag(t.dataset.tag);if(t.closest('#summary'))document.getElementById('results').scrollIntoView({behavior:'smooth'});return}
+  const an=e.target.closest('[data-angle]');if(an){setAngle(an.dataset.angle);return}
+  const m=e.target.closest('.more');if(m){const p=m.previousElementSibling;p.classList.toggle('clip');m.textContent=p.classList.contains('clip')?'Show full copy':'Hide full copy';return}
+  const nw=e.target.closest('.nw');if(nw){let el=document.getElementById(nw.dataset.cid);if(!el){S.angle=null;S.tags.clear();S.q='';document.getElementById('q').value='';render();el=document.getElementById(nw.dataset.cid)}
+    el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');return}
+  const iw=e.target.closest('.iw');if(iw){openLb(iw.dataset.cid);return}
+});
+// ---- lightbox ----
+const LB=document.getElementById('lb');let cur=null;
+function openLb(cid){const c=CR[cid];if(!c||!c.img)return;cur=cid;LB.querySelector('img').src=FU[cid]||TH[cid];
+  LB.querySelector('figcaption').innerHTML=[`<b>#${c.best_rank}</b>`,esc(A[c.angle].name),esc(c.headline||''),c.ads.length>1?`${c.ads.length} ads use this image`:''].filter(Boolean).join(' · ')+`<br><span style="opacity:.7">${c.ads.map(a=>a.id).join(', ')}</span>`;LB.classList.add('on')}
+function step(d){if(!cur)return;const i=visible.indexOf(cur);if(i<0)return;openLb(visible[(i+d+visible.length)%visible.length])}
+LB.addEventListener('click',e=>{if(e.target.closest('.prev'))return step(-1);if(e.target.closest('.next'))return step(1);LB.classList.remove('on');cur=null});
+document.addEventListener('keydown',e=>{if(!LB.classList.contains('on'))return;if(e.key==='Escape'){LB.classList.remove('on');cur=null}if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+
+const TZ='America/Cancun';
+const fmtT=iso=>{try{return new Date(iso).toLocaleString('en-US',{timeZone:TZ,month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' (Cancun time)'}catch(e){return iso}};
+function setLive(cls,txt,title){const l=document.getElementById('live');l.className=cls;l.querySelector('span').textContent=txt;if(title)l.title=title}
+let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),4000)}
+const APP="8dabdbc2656a",SKEY='cdads-state';
+const POLL=Math.max(5,+(new URLSearchParams(location.search).get('poll')||60))*1000;
+let VER=null,UPD=null,FAILS=0;
+function saveState(){try{sessionStorage.setItem(SKEY,JSON.stringify({angle:S.angle,tags:[...S.tags],q:S.q,sort:S.sort,group:S.group,y:scrollY}))}catch(e){}}
+function restoreState(){try{const o=JSON.parse(sessionStorage.getItem(SKEY)||'null');sessionStorage.removeItem(SKEY);if(!o)return null;
+  Object.assign(S,{angle:o.angle,tags:new Set(o.tags||[]),q:o.q||'',sort:o.sort||'rank',group:o.group!==false});
+  document.getElementById('q').value=S.q;document.getElementById('sort').value=S.sort;document.getElementById('grp').classList.toggle('on',S.group);return o}catch(e){return null}}
+async function getJSON(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
+const jump=y=>window.scrollTo({top:y,behavior:'instant'});
+function liveOK(){setLive('on','Live · Last updated '+fmtT(UPD),'Checks for new data every '+POLL/1000+' s · last check '+fmtT(new Date().toISOString()))}
+async function boot(){
+  try{const v=await getJSON('version.json?_='+Date.now());const d=await getJSON('data.json?v='+encodeURIComponent(v.version));
+    setData(d);const st=restoreState();render();if(st)requestAnimationFrame(()=>jump(st.y));VER=v.version;UPD=v.updated;liveOK();
+    if(st&&st.reloaded)toast('Dashboard updated');
+  }catch(e){setLive('err','Could not load data, retrying…');setTimeout(boot,10000)}
+}
+let busy=false;
+async function poll(){
+  if(VER===null||busy)return;busy=true;
+  try{const v=await getJSON('version.json?_='+Date.now());
+    if(v.app&&v.app!==APP){saveState();const o=JSON.parse(sessionStorage.getItem(SKEY));o.reloaded=1;sessionStorage.setItem(SKEY,JSON.stringify(o));location.reload();return}
+    if(v.version!==VER){
+      const d=await getJSON('data.json?v='+encodeURIComponent(v.version));
+      const y=scrollY,lb=cur,old=D.stats;setData(d);render();jump(y);
+      if(lb&&CR[lb])openLb(lb);else if(lb){LB.classList.remove('on');cur=null}
+      VER=v.version;const da=d.stats.ads-old.ads,dc=d.stats.creatives-old.creatives;
+      toast('Dashboard updated'+(da||dc?` · ${da>=0?'+':''}${da} ads, ${dc>=0?'+':''}${dc} creatives`:''));
+    }
+    UPD=v.updated;liveOK();
+    FAILS=0;
+  }catch(e){FAILS++;setLive('err','Connection lost, retrying · last updated '+fmtT(UPD))}
+  finally{busy=false}
+}
+setInterval(poll,POLL);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll()});
+boot();
+</script></body></html>

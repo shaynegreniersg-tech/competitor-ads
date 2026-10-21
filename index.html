@@ -101,8 +101,29 @@ footer{color:var(--mut);font-size:12px;padding:30px 0 50px}
 #lb figcaption{color:#e2e8f0;font-size:13px;margin-top:10px;text-align:center;max-width:800px}
 #lb .x,#lb .nav{position:absolute;color:#fff;background:rgba(255,255,255,.12);border:0;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer}
 #lb .x{top:14px;right:16px}#lb .prev{left:16px;top:50%}#lb .next{right:16px;top:50%}
-@media(max-width:1100px){.p-angles,.p-take{grid-column:span 12}.p-fmt,.p-off,.p-misc{grid-column:span 6}}
-@media(max-width:720px){.p-fmt,.p-off,.p-misc{grid-column:span 12}.hero h1{font-size:23px}.wrap{padding:0 14px}.grid{grid-template-columns:1fr}}
+/* mode switch + videos */
+.modes{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f1f5f9;flex:0 0 auto}
+.modes button{font:inherit;font-size:13px;font-weight:600;padding:7px 13px;border:0;background:transparent;cursor:pointer;color:#334155}
+.modes button+button{border-left:1px solid var(--line)}.modes button b{font-weight:600;color:var(--mut);margin-left:5px;font-size:11.5px}
+.modes button.on{background:var(--ink);color:#fff}.modes button.on b{color:#cbd5e1}.modes:empty{display:none}
+.vw{aspect-ratio:4/5;cursor:pointer}.vw img{width:100%;height:100%;max-height:none;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(15,23,42,.6);border:2px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px;padding-left:4px;transition:transform .15s,background .15s;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.vw:hover .play{background:var(--c);transform:translate(-50%,-50%) scale(1.08)}
+.durb{position:absolute;right:8px;bottom:8px;background:rgba(15,23,42,.85);color:#fff;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:5px}
+.hkl{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:0 0 2px;font-weight:600}
+.trn{font-size:12.5px;margin:0 0 8px}.trn summary{cursor:pointer;color:var(--acc);font-weight:600}.trn p{white-space:pre-line;color:#334155;background:#f8fafc;border:1px solid #eef2f7;border-radius:8px;padding:8px 10px;margin:6px 0 0;max-height:260px;overflow:auto}
+#lb video{max-width:92vw;max-height:82vh;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.6);background:#000;display:none}
+#lb.vid video{display:block}#lb.vid img{display:none}
+.p-q{grid-column:span 3}.p-mix{grid-column:span 12}
+.mix{display:grid;grid-template-columns:minmax(0,1.3fr) 1fr 1fr;gap:7px 16px;align-items:center;font-size:12.5px}
+.mix .h{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--mut);font-weight:600}
+.mix .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}.mix .nm i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
+.mix .b{display:grid;grid-template-columns:1fr 88px;gap:8px;align-items:center}.mix .b span{height:10px;background:#eef0f5;border-radius:9px;overflow:hidden}.mix .b i{display:block;height:100%;border-radius:9px}
+.mix .b em{font-style:normal;font-size:11.5px;color:var(--mut);text-align:right;white-space:nowrap}.mix .b em b{color:var(--ink)}
+.mixnote{font-size:13px;color:#334155;margin:12px 0 0;padding:9px 12px;background:#f8fafc;border-radius:10px}
+.nw .nwi{position:relative}.nw .pl{position:absolute;left:6px;bottom:6px;background:rgba(15,23,42,.82);color:#fff;font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:4px}
+@media(max-width:1100px){.p-angles,.p-take{grid-column:span 12}.p-fmt,.p-off,.p-misc,.p-q{grid-column:span 6}}
+@media(max-width:720px){.p-fmt,.p-off,.p-misc,.p-q{grid-column:span 12}.mix{grid-template-columns:1fr}.hero h1{font-size:23px}.wrap{padding:0 14px}.grid{grid-template-columns:1fr}}
 </style></head><body>
 <div class="hero"><div class="wrap">
   <p class="eyebrow">Competitor ad teardown · Facebook Ad Library</p>
@@ -110,6 +131,7 @@ footer{color:var(--mut);font-size:12px;padding:30px 0 50px}
 </div></div>
 <div class="controls"><div class="wrap">
   <div class="crow">
+    <div class="modes" id="modes"></div>
     <div class="search"><input id="q" type="search" placeholder="Search copy, headlines, on-image text, IDs… (e.g. $170, repo, Alberta)"></div>
     <select id="sort" title="Sort">
       <option value="rank">Sort: impression rank (best first)</option>
@@ -117,6 +139,8 @@ footer{color:var(--mut);font-size:12px;padding:30px 0 50px}
       <option value="oldest">Sort: oldest start date</option>
       <option value="ads">Sort: most ads using image</option>
       <option value="versions">Sort: most versions</option>
+      <option value="longest" data-vid>Sort: longest video</option>
+      <option value="shortest" data-vid>Sort: shortest video</option>
     </select>
     <button class="btn on" id="grp" title="Group cards into angle sections">Group by angle</button>
     <button class="btn" id="tagbtn">Tags ▾</button>
@@ -134,23 +158,55 @@ footer{color:var(--mut);font-size:12px;padding:30px 0 50px}
 </main>
 <div id="live" title=""><i></i><span>Loading…</span></div><div id="toast"></div>
 <div id="lb"><button class="x" title="Close (Esc)">×</button><button class="nav prev" title="Previous (←)">‹</button><button class="nav next" title="Next (→)">›</button>
-<figure><img alt=""><figcaption></figcaption></figure></div>
+<figure><img alt=""><video controls playsinline preload="none"></video><figcaption></figcaption></figure></div>
 <script>
-let D,TH,FU,A={},CR={};
+let D,TH,FU,VF={},A={},CR={},ROOT=null,VIEWS={};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtD=t=>{if(!t)return'—';const d=new Date(t+'T12:00:00');return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
-const S={angle:null,tags:new Set(),q:'',sort:'rank',group:true};
+const S={angle:null,tags:new Set(),q:'',sort:'rank',group:true,mode:({'#videos':'vid','#all':'all'})[location.hash]||'img'};
+const fmtDur=s=>{s=Math.round(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function prep(view){const am={};view.angles.forEach(a=>am[a.key]=a);
+  view.creatives.forEach(c=>{c._s=[c.headlines.join(' '),c.texts.join(' '),c.captions.join(' '),c.image_text,c.hook_line||'',c.transcript||'',(c.cities||[]).join(' '),c.ctas.join(' '),c.landings.join(' '),Object.values(c.tags).flat().join(' '),(am[c.angle]||{}).name,c.ads.map(a=>a.id).join(' ')].join(' ').toLowerCase();c._tags=new Set(Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>k+':'+t)))})}
+function combine(I,V){
+  const ang={};const add=(a,kind)=>{const o=ang[a.key]||(ang[a.key]={...a,creatives:0,ads:0,top10:0,top50:0,best:null,img_ads:0,vid_ads:0,img_cr:0,vid_cr:0});
+    o.creatives+=a.creatives;o.ads+=a.ads;o.top10+=a.top10;o.top50+=a.top50;o.best=o.best==null?a.best:Math.min(o.best,a.best);o[kind+'_ads']+=a.ads;o[kind+'_cr']+=a.creatives;
+    if(kind==='img'){o.description=a.description;o.hook=a.hook}};
+  I.angles.forEach(a=>add(a,'img'));V.angles.forEach(a=>add(a,'vid'));
+  const angles=Object.values(ang).sort((a,b)=>(a.key==='_unclassified')-(b.key==='_unclassified')||b.ads-a.ads||b.creatives-a.creatives);
+  const cats={};[...I.tagcats,...V.tagcats].forEach(t=>{const o=cats[t.key]||(cats[t.key]={key:t.key,label:t.label,m:{}});t.counts.forEach(([n,c])=>o.m[n]=(o.m[n]||0)+c)});
+  const tagcats=Object.values(cats).map(o=>({key:o.key,label:o.label,counts:Object.entries(o.m).sort((a,b)=>b[1]-a[1])}));
+  const creatives=[...I.creatives,...V.creatives];const ds=creatives.flatMap(c=>c.ads.map(a=>a.ts)).filter(Boolean).sort();
+  return {meta:I.meta,angles,creatives,tagcats,landing:[],months:[],stats:{ads:I.stats.ads+V.stats.ads,creatives:creatives.length,angles:angles.filter(a=>a.key!=='_unclassified').length,
+    span:ds.length?fmtD(ds[0])+' – '+fmtD(ds[ds.length-1]):'n/a',img:I.stats,vid:V.stats}};
+}
 function setData(d){
-D=d;TH=d.thumbs||{};FU=d.full||{};A={};CR={};D.angles.forEach(a=>A[a.key]=a);D.creatives.forEach(c=>CR[c.cid]=c);
-D.creatives.forEach(c=>{c._s=[c.headlines.join(' '),c.texts.join(' '),c.captions.join(' '),c.image_text,c.ctas.join(' '),c.landings.join(' '),Object.values(c.tags).flat().join(' '),A[c.angle].name,c.ads.map(a=>a.id).join(' ')].join(' ').toLowerCase();c._tags=new Set(Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>k+':'+t)))});
-
-const M=D.meta,ST=D.stats;
-document.getElementById('h1').textContent=(M.advertiser||'Competitor')+': Static Image Ads by Angle';
+ROOT=d;VIEWS={img:d};prep(d);
+if(d.videos){prep(d.videos);VIEWS.vid=d.videos;VIEWS.all=combine(d,d.videos)}
+TH={...(d.thumbs||{}),...(d.videos?d.videos.posters:{})};FU=d.full||{};VF=d.videos?d.videos.files:{};
+useView();
+}
+function useView(){
+if(!VIEWS[S.mode])S.mode='img';
+D=VIEWS[S.mode];A={};CR={};D.angles.forEach(a=>A[a.key]=a);D.creatives.forEach(c=>CR[c.cid]=c);
+if(S.angle&&!A[S.angle])S.angle=null;
+const M=ROOT.meta,ST=D.stats,mode=S.mode,V=ROOT.videos;
+document.getElementById('modes').innerHTML=V?[['img','Images',ROOT.stats.creatives],['vid','Videos',V.stats.creatives],['all','All',ROOT.stats.creatives+V.stats.creatives]].map(([k,l,n])=>`<button data-mode="${k}" class="${k===mode?'on':''}" title="${l==='All'?'Images and videos together, grouped by angle':l+': unique creatives'}">${l}<b>${n}</b></button>`).join(''):'';
+document.querySelectorAll('#sort option[data-vid]').forEach(o=>o.hidden=mode==='img');
+if(mode==='img'&&(S.sort==='longest'||S.sort==='shortest'))S.sort='rank';
+document.getElementById('sort').value=S.sort;
+document.querySelector('#sort option[value=ads]').textContent=mode==='img'?'Sort: most ads using image':'Sort: most ads using creative';
+document.getElementById('q').placeholder=mode==='img'?'Search copy, headlines, on-image text, IDs… (e.g. $170, repo, Alberta)':'Search hooks, transcripts, copy, on-screen text, cities, IDs… (e.g. repo, Calgary, $30,000)';
+const hd={img:'Static Image Ads by Angle',vid:'Video Ads by Angle',all:'Image + Video Ads by Angle'}[mode];
+document.getElementById('h1').textContent=(M.advertiser||'Competitor')+': '+hd;
 document.getElementById('sub').textContent=`Facebook page ${M.page_id||''} · ${M.country||''} · Active ads sorted by impressions · Collected ${M.collected||''}`;
-document.getElementById('stats').innerHTML=[[ST.ads,'single-image ads'],[ST.creatives,'unique creatives'],[ST.angles,'angles'],[ST.dup_groups,'images reused by 2+ ads'],[ST.span,'start-date range']].map(([b,s])=>`<div class="stat"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
-
-renderSummary(M,ST);
-document.getElementById('foot').textContent=`Generated by build.py from ads.csv + angles.json. ${ST.ads} ads → ${ST.creatives} unique creatives (identical images grouped by SHA-256). Rank = position in the Ad Library impressions sort among captured single-image ads. Click any image for the full-size view (←/→ to browse).`;
+const stats=mode==='img'?[[ST.ads,'single-image ads'],[ST.creatives,'unique creatives'],[ST.angles,'angles'],[ST.dup_groups,'images reused by 2+ ads'],[ST.span,'start-date range']]
+ :mode==='vid'?[[ST.ads,'video ads'],[ST.creatives,'unique videos'],[ST.angles,'angles'],[ST.dup_groups,'videos reused by 2+ ads'],[ST.median_dur+' s','median length'],[ST.voiceover,'with voiceover'],[ST.span,'start-date range']]
+ :[[ST.ads,'image + video ads'],[ST.creatives,'unique creatives'],[ST.img.creatives+' / '+ST.vid.creatives,'images / videos'],[ST.angles,'angles'],[ST.span,'start-date range']];
+document.getElementById('stats').innerHTML=stats.map(([b,s])=>`<div class="stat"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
+if(mode==='img')renderSummary(M,ST);else if(mode==='vid')renderVidSummary();else renderAllSummary();
+document.getElementById('foot').textContent=mode==='img'?`Generated by build.py from ads.csv + angles.json. ${ST.ads} ads → ${ST.creatives} unique creatives (identical images grouped by SHA-256). Rank = position in the Ad Library impressions sort among captured single-image ads. Click any image for the full-size view (←/→ to browse).`
+ :mode==='vid'?`Generated by build.py from videos.csv + videos.json + transcripts.json. ${ST.ads} video ads → ${ST.creatives} unique videos (identical video files grouped by SHA-256). Rank = position in the Ad Library impressions sort among captured video ads (separate from the image ranking). Transcripts are automatic and may contain small errors. Click a video to play it (←/→ to browse).`
+ :`Images and videos together. Ranks are per type: "Image #n" is the n-th image ad and "Video #n" the n-th video ad by impressions. Click any card to view or play it (←/→ to browse).`;
 }
 function hbars(list,cat,max){max=max||Math.max(...list.map(x=>x[1]),1);return list.map(([t,n])=>`<div class="hbar" ${cat?`data-tag="${esc(cat+':'+t)}"`:''} title="${esc(t)}"><span>${esc(t)}</span><span class="tr"><i style="width:${n/max*100}%"></i></span><b>${n}</b></div>`).join('')}
 function renderSummary(M,ST){
@@ -172,6 +228,44 @@ function renderSummary(M,ST){
   <div class="panel p-new"><h2>Newest ads <span class="muted">(most recent start date per creative)</span></h2><div class="newest">${newest.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><img src="${TH[c.cid]||''}" alt=""><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}</div></div>`;
 }
 
+const DUR_ORDER=['≤10 s','11–20 s','21–40 s','41–60 s','60 s+'];
+function angleBars(angles,unit){const maxA=Math.max(...angles.map(a=>a.ads),1);
+  return angles.map(a=>`<div class="abar" data-angle="${a.key}" title="${esc(a.name)}: ${a.creatives} unique ${unit}, ${a.ads} ads; best rank #${a.best}"><span class="nm">${esc(a.name)} <span class="muted">· best #${a.best}</span></span><span class="nums"><b>${a.creatives}</b> / ${a.ads}</span><span class="track"><span class="t" style="width:${a.ads/maxA*100}%;background:${a.color}"></span><span class="u" style="width:${a.creatives/maxA*100}%;background:${a.color}"></span></span></div>`).join('')}
+function mixPanel(){
+  const I=ROOT,V=ROOT.videos,ia={},va={};I.angles.forEach(a=>ia[a.key]=a);V.angles.forEach(a=>va[a.key]=a);
+  const keys=[...new Set([...I.angles.map(a=>a.key),...V.angles.map(a=>a.key)])].filter(k=>k!=='_unclassified');
+  const ti=I.stats.ads,tv=V.stats.ads,info=k=>ia[k]||va[k];
+  keys.sort((a,b)=>(((va[b]||{}).ads||0)/tv+((ia[b]||{}).ads||0)/ti)-(((va[a]||{}).ads||0)/tv+((ia[a]||{}).ads||0)/ti));
+  const bar=(o,t,c)=>{const n=o?o.ads:0,u=o?o.creatives:0,p=n/t*100;return`<div class="b"><span><i style="width:${Math.min(100,p*2.5)}%;background:${c}"></i></span><em><b>${p.toFixed(0)}%</b> · ${n} ads${u?` / ${u}`:''}</em></div>`};
+  return `<div class="mix"><div class="h">Angle</div><div class="h">Share of image ads (${ti})</div><div class="h">Share of video ads (${tv})</div>${keys.map(k=>`<div class="nm" ${A[k]?`data-angle="${k}"`:''} title="${esc(info(k).name)}"><i style="background:${info(k).color}"></i>${esc(info(k).name)}</div>${bar(ia[k],ti,info(k).color)}${bar(va[k],tv,info(k).color)}`).join('')}</div>
+   ${V.meta.mix_note?`<p class="mixnote">${esc(V.meta.mix_note)}</p>`:''}<p class="scope">Bar = share of that type's ads in the angle (scaled ×2.5 for readability); "ads / unique creatives". Click an angle to filter.</p>`;
+}
+function newestTiles(list){return list.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><div class="nwi"><img src="${TH[c.cid]||''}" alt="" loading="lazy">${c.kind==='video'?`<span class="pl">▶ ${fmtDur(c.dur)}</span>`:''}</div><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">${S.mode==='all'?(c.kind==='video'?'Video ':'Image '):''}#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}
+function renderVidSummary(){
+  const V=D,tc={};V.tagcats.forEach(t=>tc[t.key]=t);
+  const dur=DUR_ORDER.map(k=>[k,(tc.duration.counts.find(x=>x[0]===k)||[0,0])[1]]).filter(x=>x[1]);
+  const months=V.months.map(([m,n])=>[new Date(m+'-15').toLocaleDateString('en-US',{month:'short',year:'numeric'}),n]);
+  const newest=[...V.creatives].sort((a,b)=>b.newest.localeCompare(a.newest)||a.best_rank-b.best_rank).slice(0,12);
+  document.getElementById('summary').innerHTML=`
+  <div class="panel p-angles"><h2>Video angles: unique videos / total ads</h2>${angleBars(V.angles,'videos')}
+    <div class="legend"><span><i></i>unique videos</span><span><i class="l"></i>total ads (incl. reused videos)</span></div></div>
+  <div class="panel p-take"><h2>Key takeaways: videos</h2><ul class="tk">${(V.meta.takeaways||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul><p class="scope">${esc(V.meta.scope||'')}</p></div>
+  <div class="panel p-q"><h2>Formats <span class="muted">(unique videos)</span></h2>${hbars(tc.format.counts,'format')}</div>
+  <div class="panel p-q"><h2>Hook types <span class="muted">(first ~3 s)</span></h2>${hbars(tc.hook.counts,'hook')}</div>
+  <div class="panel p-q"><h2>Offers <span class="muted">(unique videos)</span></h2>${hbars(tc.offer.counts,'offer')}<div class="sub-h">Ad copy paired with the videos pitches…</div>${hbars(tc.copy.counts,'copy')}</div>
+  <div class="panel p-q"><h2>Length</h2>${hbars(dur,'duration')}<div class="sub-h">Geo targeting</div>${hbars(tc.geo.counts,'geo')}
+    <div class="sub-h">Cities named in copy or voiceover</div>${hbars(V.cities.slice(0,14),null)}<div class="sub-h">Video ads by start month</div>${hbars(months,null)}</div>
+  <div class="panel p-mix"><h2>Images vs videos: angle mix</h2>${mixPanel()}</div>
+  <div class="panel p-new"><h2>Newest videos <span class="muted">(most recent start date per video)</span></h2><div class="newest">${newestTiles(newest)}</div></div>`;
+}
+function renderAllSummary(){
+  const newest=[...D.creatives].sort((a,b)=>b.newest.localeCompare(a.newest)||a.best_rank-b.best_rank).slice(0,12);
+  document.getElementById('summary').innerHTML=`
+  <div class="panel p-angles"><h2>All angles: unique creatives / total ads <span class="muted">(images + videos)</span></h2>${D.angles.map(a=>{const maxA=Math.max(...D.angles.map(x=>x.ads));return `<div class="abar" data-angle="${a.key}" title="${esc(a.name)}: ${a.img_cr} images (${a.img_ads} ads) + ${a.vid_cr} videos (${a.vid_ads} ads)"><span class="nm">${esc(a.name)} <span class="muted">· ${a.img_ads} img + ${a.vid_ads} vid ads</span></span><span class="nums"><b>${a.creatives}</b> / ${a.ads}</span><span class="track"><span class="t" style="width:${a.ads/maxA*100}%;background:${a.color}"></span><span class="u" style="width:${a.creatives/maxA*100}%;background:${a.color}"></span></span></div>`}).join('')}
+    <div class="legend"><span><i></i>unique creatives</span><span><i class="l"></i>total ads</span></div></div>
+  <div class="panel p-take"><h2>Images vs videos: angle mix</h2>${mixPanel()}</div>
+  <div class="panel p-new"><h2>Newest creatives <span class="muted">(images and videos)</span></h2><div class="newest">${newestTiles(newest)}</div></div>`;
+}
 // ---- controls ----
 function renderChips(){
   const cnt={};D.creatives.forEach(c=>{if(match(c,true))cnt[c.angle]=(cnt[c.angle]||0)+1});
@@ -188,9 +282,41 @@ function match(c,ignoreAngle){
   if(S.q){for(const w of S.q.split(/\s+/))if(w&&!c._s.includes(w))return false}
   return true;
 }
-const sorters={rank:(a,b)=>a.best_rank-b.best_rank,newest:(a,b)=>b.newest.localeCompare(a.newest)||a.best_rank-b.best_rank,oldest:(a,b)=>a.oldest.localeCompare(b.oldest)||a.best_rank-b.best_rank,ads:(a,b)=>b.ads.length-a.ads.length||a.best_rank-b.best_rank,versions:(a,b)=>(b.max_versions||0)-(a.max_versions||0)||a.best_rank-b.best_rank};
+const sorters={rank:(a,b)=>a.best_rank-b.best_rank,newest:(a,b)=>b.newest.localeCompare(a.newest)||a.best_rank-b.best_rank,oldest:(a,b)=>a.oldest.localeCompare(b.oldest)||a.best_rank-b.best_rank,ads:(a,b)=>b.ads.length-a.ads.length||a.best_rank-b.best_rank,versions:(a,b)=>(b.max_versions||0)-(a.max_versions||0)||a.best_rank-b.best_rank,longest:(a,b)=>(b.dur||0)-(a.dur||0)||a.best_rank-b.best_rank,shortest:(a,b)=>(a.dur||1e9)-(b.dur||1e9)||a.best_rank-b.best_rank};
 
+function vcard(c){
+  const a=A[c.angle],n=c.ads.length,main=c.texts[0]||'',vv=c.texts.slice(1);
+  const tagHtml=Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>`<span class="tag ${k}" data-tag="${esc(k+':'+t)}">${esc(t)}</span>`)).join('');
+  const vers=c.max_versions?`${c.max_versions}`:(c.vlabel||'—');
+  const dates=c.oldest===c.newest?fmtD(c.newest):`${fmtD(c.oldest)} → ${fmtD(c.newest)}`;
+  const tr=c.transcript||'',openTr=S.q&&tr.toLowerCase().includes(S.q.split(/\s+/)[0]);
+  const ids=n>1?`<details class="ids"><summary>${n} ads use this video · show IDs</summary><table>${c.ads.map(x=>`<tr><td><a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener">${x.id}</a></td><td>#${x.rank}</td><td>${esc(x.start)}</td><td>${x.low?'low impr.':''}</td></tr>`).join('')}</table></details>`
+   :`<a class="lib" href="https://www.facebook.com/ads/library/?id=${c.ads[0].id}" target="_blank" rel="noopener">View in Ad Library ↗<code>${c.ads[0].id}</code></a>`;
+  return `<article class="card vcard" id="${c.cid}" style="--c:${a.color}">
+  <div class="iw vw" data-cid="${c.cid}" title="Play video"><img src="${TH[c.cid]||''}" alt="${esc(c.hook_line||'Video poster')}" loading="lazy" decoding="async"><span class="play">▶</span>
+    <span class="rk" title="Best impression rank among the video ads using this video">${S.mode==='all'?'Video ':''}#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical video file (SHA-256)">${n} ads use this video</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}<span class="durb">${fmtDur(c.dur)}</span></div>
+  <div class="body">
+    <div class="angl">${esc(a.name)}</div>
+    <p class="hkl">Hook · first ~3 s</p><h3>${esc(c.hook_line||c.headline||'—')}</h3>
+    ${c.headline?`<p class="cap">Headline: ${esc(c.headline)}${c.headlines.length>1?` <span class="muted">· also ${c.headlines.slice(1).map(esc).join(' · ')}</span>`:''}</p>`:''}
+    ${c.image_text?`<div class="itx"><b>On screen</b>${esc(c.image_text)}</div>`:''}
+    ${tr?`<details class="trn"${openTr?' open':''}><summary>Transcript <span class="muted">(auto · ${tr.split(/\s+/).length} words)</span></summary><p>${esc(tr)}</p></details>`:'<p class="cap">No voiceover: music + on-screen text only</p>'}
+    ${main?`<div class="pt ${main.length>230?'clip':''}">${esc(main)}</div>${main.length>230?'<button class="more">Show full copy</button>':''}`:'<p class="pt muted">No primary text captured</p>'}
+    ${vv.length?`<details class="var"><summary>${vv.length} other copy variant${vv.length>1?'s':''}</summary>${vv.map(t=>`<p>${esc(t)}</p>`).join('')}</details>`:''}
+    ${c.captions.length?`<p class="cap">Link caption: ${esc(c.captions.join(' · '))}</p>`:''}
+    <div class="tags">${tagHtml}</div>
+    <dl class="meta">
+      <div><dt>Best rank</dt><dd>#${c.best_rank}</dd></div>
+      <div><dt>Length</dt><dd>${fmtDur(c.dur)}</dd></div>
+      <div><dt>CTA</dt><dd>${esc(c.ctas.join(' / ')||'—')}</dd></div>
+      <div class="w"><dt>Versions</dt><dd>${esc(vers)}</dd></div>
+      <div class="w"><dt>Started</dt><dd>${dates}</dd></div>
+      <div class="w"><dt>Landing${c.cities.length?' · Cities':''}</dt><dd>${esc(c.landings.join(', ')||'—')}${c.cities.length?` <span class="muted">· ${esc(c.cities.join(', '))}</span>`:''}</dd></div>
+    </dl>${ids}
+  </div></article>`;
+}
 function card(c){
+  if(c.kind==='video')return vcard(c);
   const a=A[c.angle],n=c.ads.length,main=c.texts[0]||'';
   const vv=c.texts.slice(1);
   const tagHtml=Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>`<span class="tag ${k}" data-tag="${esc(k+':'+t)}">${esc(t)}</span>`)).join('');
@@ -200,7 +326,7 @@ function card(c){
    :`<a class="lib" href="https://www.facebook.com/ads/library/?id=${c.ads[0].id}" target="_blank" rel="noopener">View in Ad Library ↗<code>${c.ads[0].id}</code></a>`;
   return `<article class="card" id="${c.cid}" style="--c:${a.color}">
   <div class="iw" data-cid="${c.cid}">${c.img?`<img src="${TH[c.cid]}" alt="${esc(c.image_text||'Ad image')}" loading="lazy" decoding="async">`:'<span class="muted">No image</span>'}
-    <span class="rk" title="Best impression rank among the ads using this image">#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical image file (SHA-256)">${n} ads use this image</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}</div>
+    <span class="rk" title="Best impression rank among the ads using this image">${S.mode==='all'?'Image ':''}#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical image file (SHA-256)">${n} ads use this image</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}</div>
   <div class="body">
     <div class="angl">${esc(a.name)}</div>
     <h3>${c.headline?esc(c.headline):'<span class="muted">No headline shown</span>'}</h3>
@@ -224,13 +350,13 @@ function render(){
   const list=D.creatives.filter(c=>match(c)).sort(sorters[S.sort]);
   visible=list.map(c=>c.cid);
   const nAds=list.reduce((s,c)=>s+c.ads.length,0);
-  document.getElementById('count').textContent=`${list.length} creatives · ${nAds} ads`;
+  document.getElementById('count').textContent=`${list.length} ${S.mode==='vid'?'videos':'creatives'} · ${nAds} ads`;
   let h='';
   if(!list.length)h='<div class="empty">No creatives match these filters.</div>';
   else if(S.group){
     const order=D.angles.map(a=>a.key);
     order.forEach(k=>{const cs=list.filter(c=>c.angle===k);if(!cs.length)return;const a=A[k];const na=cs.reduce((s,c)=>s+c.ads.length,0);
-      h+=`<section class="ang" id="sec-${k}" style="--c:${a.color}"><header class="sh"><h2>${esc(a.name)} <span class="pill">${cs.length} creative${cs.length>1?'s':''}</span><span class="pill lt">${na} ads</span>${a.top10?`<span class="pill lt">${a.top10} in top 10</span>`:''}</h2><p>${esc(a.description)}</p>${a.hook?`<p class="hook"><b>Hook pattern:</b> ${esc(a.hook)}</p>`:''}</header><div class="grid">${cs.map(card).join('')}</div></section>`});
+      h+=`<section class="ang" id="sec-${k}" style="--c:${a.color}"><header class="sh"><h2>${esc(a.name)} <span class="pill">${cs.length} ${S.mode==='vid'?'video':'creative'}${cs.length>1?'s':''}</span><span class="pill lt">${na} ad${na>1?'s':''}</span>${a.top10?`<span class="pill lt">${a.top10} in top 10</span>`:''}</h2><p>${esc(a.description)}</p>${a.hook?`<p class="hook"><b>Hook pattern:</b> ${esc(a.hook)}</p>`:''}</header><div class="grid">${cs.map(card).join('')}</div></section>`});
     // keep visible order consistent with grouped layout
     visible=[];order.forEach(k=>list.filter(c=>c.angle===k).forEach(c=>visible.push(c.cid)));
   } else h=`<div class="grid" style="margin-top:24px">${list.map(card).join('')}</div>`;
@@ -244,39 +370,48 @@ document.getElementById('sort').onchange=e=>{S.sort=e.target.value;render()};
 document.getElementById('grp').onclick=e=>{S.group=!S.group;e.target.classList.toggle('on',S.group);render()};
 document.getElementById('tagbtn').onclick=()=>document.getElementById('tagpanel').classList.toggle('open');
 document.getElementById('reset').onclick=()=>{S.angle=null;S.tags.clear();S.q='';document.getElementById('q').value='';render()};
+function setMode(m){if(!VIEWS[m]||m===S.mode)return;S.mode=m;S.tags.clear();useView();render();
+  try{history.replaceState(null,'',m==='img'?location.pathname+location.search:'#'+(m==='vid'?'videos':'all'))}catch(e){}}
 document.addEventListener('click',e=>{
+  const md=e.target.closest('[data-mode]');if(md){setMode(md.dataset.mode);return}
   const t=e.target.closest('[data-tag]');if(t&&!t.closest('#lb')){toggleTag(t.dataset.tag);if(t.closest('#summary'))document.getElementById('results').scrollIntoView({behavior:'smooth'});return}
-  const an=e.target.closest('[data-angle]');if(an){setAngle(an.dataset.angle);return}
+  const an=e.target.closest('[data-angle]');if(an){if(an.dataset.angle&&!A[an.dataset.angle])return;setAngle(an.dataset.angle);return}
   const m=e.target.closest('.more');if(m){const p=m.previousElementSibling;p.classList.toggle('clip');m.textContent=p.classList.contains('clip')?'Show full copy':'Hide full copy';return}
   const nw=e.target.closest('.nw');if(nw){let el=document.getElementById(nw.dataset.cid);if(!el){S.angle=null;S.tags.clear();S.q='';document.getElementById('q').value='';render();el=document.getElementById(nw.dataset.cid)}
     el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');return}
   const iw=e.target.closest('.iw');if(iw){openLb(iw.dataset.cid);return}
 });
 // ---- lightbox ----
-const LB=document.getElementById('lb');let cur=null;
-function openLb(cid){const c=CR[cid];if(!c||!c.img)return;cur=cid;LB.querySelector('img').src=FU[cid]||TH[cid];
-  LB.querySelector('figcaption').innerHTML=[`<b>#${c.best_rank}</b>`,esc(A[c.angle].name),esc(c.headline||''),c.ads.length>1?`${c.ads.length} ads use this image`:''].filter(Boolean).join(' · ')+`<br><span style="opacity:.7">${c.ads.map(a=>a.id).join(', ')}</span>`;LB.classList.add('on')}
+const LB=document.getElementById('lb'),LV=LB.querySelector('video');let cur=null;
+function stopVid(){if(LV.getAttribute('src')){LV.pause();LV.removeAttribute('src');LV.load()}}
+function closeLb(){LB.classList.remove('on','vid');stopVid();cur=null}
+function openLb(cid){const c=CR[cid];if(!c||!c.img)return;cur=cid;
+  if(c.kind==='video'){LB.classList.add('vid');LB.querySelector('img').removeAttribute('src');LV.poster=TH[cid]||'';LV.src=VF[cid];LB.classList.add('on');const p=LV.play();if(p&&p.catch)p.catch(()=>{});
+    LB.querySelector('figcaption').innerHTML=[`<b>${S.mode==='all'?'Video ':''}#${c.best_rank}</b>`,esc(A[c.angle].name),fmtDur(c.dur),esc(c.hook_line||''),c.ads.length>1?`${c.ads.length} ads use this video`:''].filter(Boolean).join(' · ')+`<br><span style="opacity:.7">${c.ads.map(a=>a.id).join(', ')}</span>`;return}
+  LB.classList.remove('vid');stopVid();LB.querySelector('img').src=FU[cid]||TH[cid];
+  LB.querySelector('figcaption').innerHTML=[`<b>${S.mode==='all'?'Image ':''}#${c.best_rank}</b>`,esc(A[c.angle].name),esc(c.headline||''),c.ads.length>1?`${c.ads.length} ads use this image`:''].filter(Boolean).join(' · ')+`<br><span style="opacity:.7">${c.ads.map(a=>a.id).join(', ')}</span>`;LB.classList.add('on')}
 function step(d){if(!cur)return;const i=visible.indexOf(cur);if(i<0)return;openLb(visible[(i+d+visible.length)%visible.length])}
-LB.addEventListener('click',e=>{if(e.target.closest('.prev'))return step(-1);if(e.target.closest('.next'))return step(1);LB.classList.remove('on');cur=null});
-document.addEventListener('keydown',e=>{if(!LB.classList.contains('on'))return;if(e.key==='Escape'){LB.classList.remove('on');cur=null}if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+LB.addEventListener('click',e=>{if(e.target.closest('video'))return;if(e.target.closest('.prev'))return step(-1);if(e.target.closest('.next'))return step(1);closeLb()});
+document.addEventListener('keydown',e=>{if(!LB.classList.contains('on'))return;if(e.key==='Escape'){closeLb();return}
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopPropagation();step(e.key==='ArrowRight'?1:-1)}},true);
 
 const TZ='America/Cancun';
 const fmtT=iso=>{try{return new Date(iso).toLocaleString('en-US',{timeZone:TZ,month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' (Cancun time)'}catch(e){return iso}};
 function setLive(cls,txt,title){const l=document.getElementById('live');l.className=cls;l.querySelector('span').textContent=txt;if(title)l.title=title}
 let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),4000)}
-const APP="8dabdbc2656a",SKEY='cdads-state';
+const APP="fe38f35c9c74",SKEY='cdads-state';
 const POLL=Math.max(5,+(new URLSearchParams(location.search).get('poll')||60))*1000;
 let VER=null,UPD=null,FAILS=0;
-function saveState(){try{sessionStorage.setItem(SKEY,JSON.stringify({angle:S.angle,tags:[...S.tags],q:S.q,sort:S.sort,group:S.group,y:scrollY}))}catch(e){}}
+function saveState(){try{sessionStorage.setItem(SKEY,JSON.stringify({angle:S.angle,tags:[...S.tags],q:S.q,sort:S.sort,group:S.group,mode:S.mode,y:scrollY}))}catch(e){}}
 function restoreState(){try{const o=JSON.parse(sessionStorage.getItem(SKEY)||'null');sessionStorage.removeItem(SKEY);if(!o)return null;
-  Object.assign(S,{angle:o.angle,tags:new Set(o.tags||[]),q:o.q||'',sort:o.sort||'rank',group:o.group!==false});
+  Object.assign(S,{angle:o.angle,tags:new Set(o.tags||[]),q:o.q||'',sort:o.sort||'rank',group:o.group!==false,mode:o.mode||S.mode});
   document.getElementById('q').value=S.q;document.getElementById('sort').value=S.sort;document.getElementById('grp').classList.toggle('on',S.group);return o}catch(e){return null}}
 async function getJSON(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
 const jump=y=>window.scrollTo({top:y,behavior:'instant'});
 function liveOK(){setLive('on','Live · Last updated '+fmtT(UPD),'Checks for new data every '+POLL/1000+' s · last check '+fmtT(new Date().toISOString()))}
 async function boot(){
   try{const v=await getJSON('version.json?_='+Date.now());const d=await getJSON('data.json?v='+encodeURIComponent(v.version));
-    setData(d);const st=restoreState();render();if(st)requestAnimationFrame(()=>jump(st.y));VER=v.version;UPD=v.updated;liveOK();
+    const st=restoreState();setData(d);render();if(st)requestAnimationFrame(()=>jump(st.y));VER=v.version;UPD=v.updated;liveOK();
     if(st&&st.reloaded)toast('Dashboard updated');
   }catch(e){setLive('err','Could not load data, retrying…');setTimeout(boot,10000)}
 }
@@ -288,7 +423,7 @@ async function poll(){
     if(v.version!==VER){
       const d=await getJSON('data.json?v='+encodeURIComponent(v.version));
       const y=scrollY,lb=cur,old=D.stats;setData(d);render();jump(y);
-      if(lb&&CR[lb])openLb(lb);else if(lb){LB.classList.remove('on');cur=null}
+      if(lb&&CR[lb]){if(CR[lb].kind!=='video')openLb(lb)}else if(lb)closeLb();
       VER=v.version;const da=d.stats.ads-old.ads,dc=d.stats.creatives-old.creatives;
       toast('Dashboard updated'+(da||dc?` · ${da>=0?'+':''}${da} ads, ${dc>=0?'+':''}${dc} creatives`:''));
     }

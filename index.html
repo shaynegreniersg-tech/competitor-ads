@@ -133,7 +133,7 @@ footer{color:var(--mut);font-size:12px;padding:30px 0 50px}
 <div class="controls"><div class="wrap">
   <div class="crow">
     <div class="modes" id="modes"></div>
-    <div class="search"><input id="q" type="search" placeholder="Search copy, headlines, on-image text, IDs… (e.g. $170, repo, Alberta)"></div>
+    <div class="search"><input id="q" type="search" placeholder="Search copy, headlines, on-image text, IDs… (e.g. $170, repo, rental)"></div>
     <select id="sort" title="Sort">
       <option value="rank">Sort: impression rank (best first)</option>
       <option value="newest">Sort: newest start date</option>
@@ -196,7 +196,7 @@ document.querySelectorAll('#sort option[data-vid]').forEach(o=>o.hidden=mode==='
 if(mode==='img'&&(S.sort==='longest'||S.sort==='shortest'))S.sort='rank';
 document.getElementById('sort').value=S.sort;
 document.querySelector('#sort option[value=ads]').textContent=mode==='img'?'Sort: most ads using image':'Sort: most ads using creative';
-document.getElementById('q').placeholder=mode==='img'?'Search copy, headlines, on-image text, IDs… (e.g. $170, repo, Alberta)':'Search hooks, transcripts, copy, on-screen text, cities, IDs… (e.g. repo, Calgary, $30,000)';
+document.getElementById('q').placeholder=mode==='img'?'Search copy, headlines, on-image text, IDs… (e.g. $170, repo, rental)':'Search hooks, transcripts, copy, on-screen text, cities, IDs… (e.g. repo, Calgary, $30,000)';
 const hd={img:'Static Image Ads by Angle',vid:'Video Ads by Angle',all:'Image + Video Ads by Angle'}[mode];
 document.getElementById('h1').textContent=(M.advertiser||'Competitor')+': '+hd;
 document.getElementById('sub').textContent=`Facebook page ${M.page_id||''} · ${M.country||''} · Active ads sorted by impressions · Collected ${M.collected||''}`;
@@ -400,7 +400,7 @@ const TZ='America/Cancun';
 const fmtT=iso=>{try{return new Date(iso).toLocaleString('en-US',{timeZone:TZ,month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' (Cancun time)'}catch(e){return iso}};
 function setLive(cls,txt,title){const l=document.getElementById('live');l.className=cls;l.querySelector('span').textContent=txt;if(title)l.title=title}
 let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),4000)}
-const APP="b60ba3fe018c",SKEY='cdads-state';
+const APP="1ad9cf14ab7a",SKEY='cdads-state';
 const POLL=Math.max(5,+(new URLSearchParams(location.search).get('poll')||60))*1000;
 let VER=null,UPD=null,FAILS=0;
 function saveState(){try{sessionStorage.setItem(SKEY,JSON.stringify({angle:S.angle,tags:[...S.tags],q:S.q,sort:S.sort,group:S.group,mode:S.mode,y:scrollY}))}catch(e){}}

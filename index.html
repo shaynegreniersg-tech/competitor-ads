@@ -70,6 +70,10 @@ section.ang{margin:30px 0 8px;scroll-margin-top:120px}
 .iw img{max-width:100%;max-height:100%;display:block}
 .rk{position:absolute;left:8px;top:8px;background:rgba(15,23,42,.85);color:#fff;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px}
 .dupb{position:absolute;right:8px;top:8px;background:#f59e0b;color:#1f1300;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.newb,.stopb{position:absolute;left:8px;top:34px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.newb{background:#22c55e;color:#052e16}.newb.lt{background:#bbf7d0;color:#14532d}.stopb{background:#475569;color:#f1f5f9}
+.card.stopped .iw img{opacity:.55;filter:grayscale(.6)}.card.stopped{opacity:.9}
+.nw .nb{display:inline-block;margin-left:4px;font-size:10px;font-weight:700;padding:0 5px;border-radius:4px;background:#22c55e;color:#052e16}
 .lowb{position:absolute;left:8px;bottom:8px;background:#e2e8f0;color:#334155;font-size:10.5px;padding:2px 6px;border-radius:5px}
 .body{padding:12px 15px 14px}
 .angl{font-size:11px;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
@@ -165,6 +169,8 @@ let D,TH,FU,VF={},A={},CR={},ROOT=null,VIEWS={};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtD=t=>{if(!t)return'—';const d=new Date(t+'T12:00:00');return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
 const S={angle:null,tags:new Set(),q:'',sort:'rank',group:true,mode:({'#videos':'vid','#all':'all'})[location.hash]||'img'};
+const stB=c=>c.status==='new'?'<span class="newb" title="Creative first seen in this week\'s check">New this week</span>':c.status==='stopped'?'<span class="stopb" title="None of the ads using this creative were seen in this week\'s check">Stopped</span>':c.new_ads?`<span class="newb lt" title="Existing creative: ${c.new_ads} new ad ID${c.new_ads>1?'s':''} first seen this week">+${c.new_ads} new ad${c.new_ads>1?'s':''}</span>`:'';
+const stA=x=>x.status==='new'?'new':x.status==='stopped'?'stopped':'';
 const fmtDur=s=>{s=Math.round(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 function prep(view){const am={};view.angles.forEach(a=>am[a.key]=a);
   view.creatives.forEach(c=>{c._s=[c.headlines.join(' '),c.texts.join(' '),c.captions.join(' '),c.image_text,c.hook_line||'',c.transcript||'',(c.cities||[]).join(' '),c.ctas.join(' '),c.landings.join(' '),Object.values(c.tags).flat().join(' '),(am[c.angle]||{}).name,c.ads.map(a=>a.id).join(' ')].join(' ').toLowerCase();c._tags=new Set(Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>k+':'+t)))})}
@@ -200,8 +206,8 @@ document.getElementById('q').placeholder=mode==='img'?'Search copy, headlines, o
 const hd={img:'Static Image Ads by Angle',vid:'Video Ads by Angle',all:'Image + Video Ads by Angle'}[mode];
 document.getElementById('h1').textContent=(M.advertiser||'Competitor')+': '+hd;
 document.getElementById('sub').textContent=`Facebook page ${M.page_id||''} · ${M.country||''} · Active ads sorted by impressions · Collected ${M.collected||''}`;
-const stats=mode==='img'?[[ST.ads,'single-image ads'],[ST.creatives,'unique creatives'],[ST.angles,'angles'],[ST.dup_groups,'images reused by 2+ ads'],[ST.span,'start-date range']]
- :mode==='vid'?[[ST.ads,'video ads'],[ST.creatives,'unique videos'],[ST.angles,'angles'],[ST.dup_groups,'videos reused by 2+ ads'],[ST.median_dur+' s','median length'],[ST.voiceover,'with voiceover'],[ST.span,'start-date range']]
+const stats=mode==='img'?[[ST.ads,'single-image ads'],[ST.creatives,'unique creatives'],[ST.angles,'angles'],[ST.new||0,'new ads this week'],[ST.stopped||0,'ads stopped'],[ST.dup_groups,'images reused by 2+ ads'],[ST.span,'start-date range']]
+ :mode==='vid'?[[ST.ads,'video ads'],[ST.creatives,'unique videos'],[ST.angles,'angles'],[ST.new||0,'new ads this week'],[ST.stopped||0,'ads stopped'],[ST.dup_groups,'videos reused by 2+ ads'],[ST.median_dur+' s','median length'],[ST.voiceover,'with voiceover'],[ST.span,'start-date range']]
  :[[ST.ads,'image + video ads'],[ST.creatives,'unique creatives'],[ST.img.creatives+' / '+ST.vid.creatives,'images / videos'],[ST.angles,'angles'],[ST.span,'start-date range']];
 document.getElementById('stats').innerHTML=stats.map(([b,s])=>`<div class="stat"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
 if(mode==='img')renderSummary(M,ST);else if(mode==='vid')renderVidSummary();else renderAllSummary();
@@ -226,7 +232,7 @@ function renderSummary(M,ST){
     <div class="sub-h">Click-through destination (ads)</div>${hbars(land,null)}</div>
   <div class="panel p-misc"><h2>Seasonal & geo targeting</h2>${hbars(tc.seasonal.counts,'seasonal')}<div class="sub-h">Geo / audience</div>${hbars(tc.geo.counts,'geo')}
     <div class="sub-h">Ads by start month</div>${hbars(months,null)}</div>
-  <div class="panel p-new"><h2>Newest ads <span class="muted">(most recent start date per creative)</span></h2><div class="newest">${newest.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><img src="${TH[c.cid]||''}" alt=""><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}</div></div>`;
+  <div class="panel p-new"><h2>Newest ads <span class="muted">(most recent start date per creative)</span></h2><div class="newest">${newest.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><img src="${TH[c.cid]||''}" alt=""><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">${c.status==='new'?'<span class="nb">NEW</span> ':''}#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}</div></div>`;
 }
 
 const DUR_ORDER=['≤10 s','11–20 s','21–40 s','41–60 s','60 s+'];
@@ -241,7 +247,7 @@ function mixPanel(){
   return `<div class="mix"><div class="h">Angle</div><div class="h">Share of image ads (${ti})</div><div class="h">Share of video ads (${tv})</div>${keys.map(k=>`<div class="nm" ${A[k]?`data-angle="${k}"`:''} title="${esc(info(k).name)}"><i style="background:${info(k).color}"></i>${esc(info(k).name)}</div>${bar(ia[k],ti,info(k).color)}${bar(va[k],tv,info(k).color)}`).join('')}</div>
    ${V.meta.mix_note?`<p class="mixnote">${esc(V.meta.mix_note)}</p>`:''}<p class="scope">Bar = share of that type's ads in the angle (scaled ×2.5 for readability); "ads / unique creatives". Click an angle to filter.</p>`;
 }
-function newestTiles(list){return list.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><div class="nwi"><img src="${TH[c.cid]||''}" alt="" loading="lazy">${c.kind==='video'?`<span class="pl">▶ ${fmtDur(c.dur)}</span>`:''}</div><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">${S.mode==='all'?(c.kind==='video'?'Video ':'Image '):''}#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}
+function newestTiles(list){return list.map(c=>`<div class="nw" data-cid="${c.cid}" style="--c:${A[c.angle].color}"><div class="nwi"><img src="${TH[c.cid]||''}" alt="" loading="lazy">${c.kind==='video'?`<span class="pl">▶ ${fmtDur(c.dur)}</span>`:''}</div><div><b>${fmtD(c.newest)}</b><span class="an">${esc(A[c.angle].name)}</span><span class="muted">${c.status==='new'?'<span class="nb">NEW</span> ':''}${S.mode==='all'?(c.kind==='video'?'Video ':'Image '):''}#${c.best_rank}${c.ads.length>1?` · ${c.ads.length} ads`:''}</span></div></div>`).join('')}
 function renderVidSummary(){
   const V=D,tc={};V.tagcats.forEach(t=>tc[t.key]=t);
   const dur=DUR_ORDER.map(k=>[k,(tc.duration.counts.find(x=>x[0]===k)||[0,0])[1]]).filter(x=>x[1]);
@@ -291,11 +297,11 @@ function vcard(c){
   const vers=c.max_versions?`${c.max_versions}`:(c.vlabel||'—');
   const dates=c.oldest===c.newest?fmtD(c.newest):`${fmtD(c.oldest)} → ${fmtD(c.newest)}`;
   const tr=c.transcript||'',openTr=S.q&&tr.toLowerCase().includes(S.q.split(/\s+/)[0]);
-  const ids=n>1?`<details class="ids"><summary>${n} ads use this video · show IDs</summary><table>${c.ads.map(x=>`<tr><td><a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener">${x.id}</a></td><td>#${x.rank}</td><td>${esc(x.start)}</td><td>${x.low?'low impr.':''}</td></tr>`).join('')}</table></details>`
+  const ids=n>1?`<details class="ids"><summary>${n} ads use this video · show IDs</summary><table>${c.ads.map(x=>`<tr><td><a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener">${x.id}</a></td><td>#${x.rank}</td><td>${esc(x.start)}</td><td>${x.low?'low impr.':''}${stA(x)?' '+stA(x):''}</td></tr>`).join('')}</table></details>`
    :`<a class="lib" href="https://www.facebook.com/ads/library/?id=${c.ads[0].id}" target="_blank" rel="noopener">View in Ad Library ↗<code>${c.ads[0].id}</code></a>`;
-  return `<article class="card vcard" id="${c.cid}" style="--c:${a.color}">
+  return `<article class="card vcard${c.status==='stopped'?' stopped':''}" id="${c.cid}" style="--c:${a.color}">
   <div class="iw vw" data-cid="${c.cid}" title="Play video"><img src="${TH[c.cid]||''}" alt="${esc(c.hook_line||'Video poster')}" loading="lazy" decoding="async"><span class="play">▶</span>
-    <span class="rk" title="Best impression rank among the video ads using this video">${S.mode==='all'?'Video ':''}#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical video file (SHA-256)">${n} ads use this video</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}<span class="durb">${fmtDur(c.dur)}</span></div>
+    <span class="rk" title="Best impression rank among the video ads using this video">${S.mode==='all'?'Video ':''}#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical video file (SHA-256)">${n} ads use this video</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}${stB(c)}<span class="durb">${fmtDur(c.dur)}</span></div>
   <div class="body">
     <div class="angl">${esc(a.name)}</div>
     <p class="hkl">Hook · first ~3 s</p><h3>${esc(c.hook_line||c.headline||'—')}</h3>
@@ -323,11 +329,11 @@ function card(c){
   const tagHtml=Object.entries(c.tags).flatMap(([k,v])=>v.map(t=>`<span class="tag ${k}" data-tag="${esc(k+':'+t)}">${esc(t)}</span>`)).join('');
   const vers=c.max_versions?`${c.max_versions}`:'—';
   const dates=c.oldest===c.newest?fmtD(c.newest):`${fmtD(c.oldest)} → ${fmtD(c.newest)}`;
-  const ids=n>1?`<details class="ids"><summary>${n} ads use this image · show IDs</summary><table>${c.ads.map(x=>`<tr><td><a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener">${x.id}</a></td><td>#${x.rank}</td><td>${esc(x.start)}</td><td>${x.versions?x.versions+' ver.':''}${x.low?' · low impr.':''}</td></tr>`).join('')}</table></details>`
+  const ids=n>1?`<details class="ids"><summary>${n} ads use this image · show IDs</summary><table>${c.ads.map(x=>`<tr><td><a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener">${x.id}</a></td><td>#${x.rank}</td><td>${esc(x.start)}</td><td>${x.versions?x.versions+' ver.':''}${x.low?' · low impr.':''}${stA(x)?' · '+stA(x):''}</td></tr>`).join('')}</table></details>`
    :`<a class="lib" href="https://www.facebook.com/ads/library/?id=${c.ads[0].id}" target="_blank" rel="noopener">View in Ad Library ↗<code>${c.ads[0].id}</code></a>`;
-  return `<article class="card" id="${c.cid}" style="--c:${a.color}">
+  return `<article class="card${c.status==='stopped'?' stopped':''}" id="${c.cid}" style="--c:${a.color}">
   <div class="iw" data-cid="${c.cid}">${c.img?`<img src="${TH[c.cid]}" alt="${esc(c.image_text||'Ad image')}" loading="lazy" decoding="async">`:'<span class="muted">No image</span>'}
-    <span class="rk" title="Best impression rank among the ads using this image">${S.mode==='all'?'Image ':''}#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical image file (SHA-256)">${n} ads use this image</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}</div>
+    <span class="rk" title="Best impression rank among the ads using this image">${S.mode==='all'?'Image ':''}#${c.best_rank}</span>${n>1?`<span class="dupb" title="Identical image file (SHA-256)">${n} ads use this image</span>`:''}${c.low?'<span class="lowb">Low impression count</span>':''}${stB(c)}</div>
   <div class="body">
     <div class="angl">${esc(a.name)}</div>
     <h3>${c.headline?esc(c.headline):'<span class="muted">No headline shown</span>'}</h3>
@@ -396,11 +402,11 @@ LB.addEventListener('click',e=>{if(e.target.closest('video'))return;if(e.target.
 document.addEventListener('keydown',e=>{if(!LB.classList.contains('on'))return;if(e.key==='Escape'){closeLb();return}
   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopPropagation();step(e.key==='ArrowRight'?1:-1)}},true);
 
-const TZ='America/Cancun';
-const fmtT=iso=>{try{return new Date(iso).toLocaleString('en-US',{timeZone:TZ,month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' (Cancun time)'}catch(e){return iso}};
+const TZ='America/Toronto';
+const fmtT=iso=>{try{return new Date(iso).toLocaleString('en-US',{timeZone:TZ,month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' ET'}catch(e){return iso}};
 function setLive(cls,txt,title){const l=document.getElementById('live');l.className=cls;l.querySelector('span').textContent=txt;if(title)l.title=title}
 let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),4000)}
-const APP="1ad9cf14ab7a",SKEY='cdads-state';
+const APP="30bc831f61b2",SKEY='cdads-state';
 const POLL=Math.max(5,+(new URLSearchParams(location.search).get('poll')||60))*1000;
 let VER=null,UPD=null,FAILS=0;
 function saveState(){try{sessionStorage.setItem(SKEY,JSON.stringify({angle:S.angle,tags:[...S.tags],q:S.q,sort:S.sort,group:S.group,mode:S.mode,y:scrollY}))}catch(e){}}

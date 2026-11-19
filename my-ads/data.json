@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "Maple Drive: My ads",
+    "description": "Creative monitoring tool for Maple Drive ads. Groups creatives by format, type (execution), and message angle. Metrics are left empty until ad account data is connected — do not pull Meta data until asked.",
+    "brand": "Maple Drive",
+    "schema_version": 1,
+    "empty_state": "No creatives yet, upload coming",
+    "watchlist_roas_threshold": 2.0,
+    "watchlist_roas_field": "meta_roas",
+    "watchlist_roas_fallback_field": "payout_roas",
+    "watchlist_rule": "Flag a creative when status is off or paused AND the chosen ROAS (Meta dashboard purchase ROAS, or payout ROAS if Meta ROAS is null) is at or above watchlist_roas_threshold.",
+    "notes": "This page is structure-only. All metric fields must stay null until Shayne asks to connect ad account data. Exclude anything named Cheaper (not Maple Drive). Approval/credit-friendly benefit ads must not use 'bad credit?' call-outs. Site is public on GitHub Pages.",
+    "metrics_note": "Top-ad rankings will use Meta dashboard purchase ROAS. Payout ROAS uses updated payouts. Both are stored separately.",
+    "updated": "2026-11-19T18:16:53-05:00",
+    "creatives": 0,
+    "version": "2368f11f568e"
+  },
+  "types": {
+    "video": [
+      {
+        "key": "skit",
+        "label": "Skit",
+        "color": "#7c3aed"
+      },
+      {
+        "key": "street_interview",
+        "label": "Street interview",
+        "color": "#c026d3"
+      },
+      {
+        "key": "ugc",
+        "label": "UGC",
+        "color": "#db2777"
+      },
+      {
+        "key": "vo_broll",
+        "label": "Voice-over on image/b-roll",
+        "color": "#ea580c"
+      },
+      {
+        "key": "other",
+        "label": "Other",
+        "color": "#64748b"
+      }
+    ],
+    "image": [
+      {
+        "key": "payment_offer",
+        "label": "Payment offer",
+        "color": "#2563eb"
+      },
+      {
+        "key": "testimonial",
+        "label": "Testimonial/social proof",
+        "color": "#0891b2"
+      },
+      {
+        "key": "car_showcase",
+        "label": "Car showcase",
+        "color": "#0f766e"
+      },
+      {
+        "key": "approval_benefit",
+        "label": "Approval/credit-friendly benefit",
+        "color": "#1d4ed8"
+      },
+      {
+        "key": "lifestyle",
+        "label": "Lifestyle",
+        "color": "#4f46e5"
+      },
+      {
+        "key": "other",
+        "label": "Other",
+        "color": "#64748b"
+      }
+    ]
+  },
+  "angles": [
+    {
+      "key": "fast_approval",
+      "label": "Fast approval",
+      "color": "#1d4ed8",
+      "description": "Get approved quickly / simple application."
+    },
+    {
+      "key": "payment",
+      "label": "Payment-led offer",
+      "color": "#2563eb",
+      "description": "A specific payment, bi-weekly amount, or payment-focused offer. Not competitor $170 bi-weekly claims."
+    },
+    {
+      "key": "credit_friendly",
+      "label": "Credit-friendly / get approved",
+      "color": "#0f766e",
+      "description": "Approval or credit-friendly benefit. Do not use 'bad credit?' call-outs."
+    },
+    {
+      "key": "inventory",
+      "label": "Inventory / in-stock cars",
+      "color": "#0f766e",
+      "description": "Show the cars themselves, stock, or a specific vehicle."
+    },
+    {
+      "key": "social_proof",
+      "label": "Social proof",
+      "color": "#0891b2",
+      "description": "Reviews, testimonials, customer stories."
+    },
+    {
+      "key": "speed",
+      "label": "Drive away soon",
+      "color": "#c026d3",
+      "description": "Speed to keys / start this week."
+    },
+    {
+      "key": "how_it_works",
+      "label": "How it works",
+      "color": "#7c3aed",
+      "description": "Process, steps, or explanation."
+    },
+    {
+      "key": "easy_start",
+      "label": "Easy start / accessible terms",
+      "color": "#ea580c",
+      "description": "Low barrier to start, clear terms, approachable offer."
+    },
+    {
+      "key": "lifestyle",
+      "label": "Lifestyle / next car",
+      "color": "#4f46e5",
+      "description": "Life with the car, 'your next car starts here' energy."
+    },
+    {
+      "key": "other",
+      "label": "Other",
+      "color": "#64748b",
+      "description": "Doesn't fit the angles above. Refine the list when classifying the first batch."
+    }
+  ],
+  "creatives": []
+}

@@ -11,9 +11,10 @@
     "watchlist_rule": "Flag a creative when status is off or paused AND the chosen ROAS (Meta dashboard purchase ROAS, or payout ROAS if Meta ROAS is null) is at or above watchlist_roas_threshold.",
     "notes": "Metrics stay null until Shayne asks to connect ad account data. Exclude anything named Cheaper (not Maple Drive). Approval/credit-friendly benefit ads and new iterations must not use “bad credit?” / “Mauvais crédit?” call-outs. Site is public on GitHub Pages. Never use Facebook post IDs for anything operational; Instagram preview URLs are shown only as a View link.",
     "metrics_note": "Top-ad rankings will use Meta dashboard purchase ROAS. Payout ROAS uses updated payouts. Both are stored separately.",
-    "updated": "2026-11-19T18:45:37-05:00",
+    "how_to_iterate": "Keep the angle, change one variable.",
+    "updated": "2026-11-19T18:57:57-05:00",
     "creatives": 14,
-    "version": "98937f800a5e"
+    "version": "75a6b0911179"
   },
   "types": {
     "video": [
@@ -186,7 +187,13 @@
           "ig_preview": "https://www.instagram.com/p/DePbkZxga1r/"
         }
       ],
-      "headline": "Approuvé vite et facilement"
+      "headline": "Approuvé vite et facilement",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": null,
+      "prompt_source": "pending",
+      "prompt_source_file": null,
+      "prompt_reference": null
     },
     {
       "id": "md_2b_quiz",
@@ -234,7 +241,13 @@
           "ig_preview": "https://www.instagram.com/p/DePmhqMAILd/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": null,
+      "prompt_source": "pending",
+      "prompt_source_file": null,
+      "prompt_reference": null
     },
     {
       "id": "md_01_repo_var_2026-10-27",
@@ -282,7 +295,17 @@
           "ig_preview": "https://www.instagram.com/p/DfA9VPJguA1/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "I've attached a reference ad image (repo_5.jpg) from another advertiser. Use it ONLY as inspiration for format, layout, composition and the low-fi native feel. Do not copy it. Create a brand-new square 1:1 (1080x1080) Facebook feed ad for Maple Drive.\n\nKeep from the reference: the extreme close-up of a snow-covered car surface filling the frame, with big chunky words drawn by a finger in the snow so the darker paint shows through the letters, and the cold natural daylight phone-photo feel.\n\nChange: make it the snowy hood of an unbadged red hatchback, with a lime #D5FF40 mitten resting at the bottom-right corner of the frame. Use different words (below). No badges, plates or brand names visible. No trucks or pickups anywhere in the image.\n\nRemove EVERYTHING that belongs to the original advertiser: the name Canada Drives, their logo, website, watermark, handles, all their text, and their brand colours. Do not include any Canada Drives trademark or anything that looks like their branding.\n\nExact new on-image text:\n- Words drawn in the snow, line 1: \"SEE YOUR\"\n- Line 2: \"OPTIONS\"\n- Line 3: \"FIRST\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written in the on-image text list, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts. No trucks or pickups anywhere in the image. The only vehicles allowed are unbadged sedans, hatchbacks, SUVs, crossovers and vans.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-27/01_repo_var.prompt.txt",
+      "prompt_reference": {
+        "filename": "repo_5.jpg",
+        "path": "/workspace/mapledrive/refs/repo_5.jpg",
+        "available": true
+      }
     },
     {
       "id": "md_winter",
@@ -312,7 +335,7 @@
       "first_active": null,
       "last_active": null,
       "notes": "Image from our build file for that date; may differ slightly from the live upload. The image shows $250 bi-weekly and a “Mauvais crédit? Pas de problème.” call-out. The current brief bans “bad credit?” / “Mauvais crédit?” call-outs, so a compliant iteration is needed.",
-      "iteration_ideas": "Rebuild this low-payments winter offer without the “Mauvais crédit?” call-out, keeping the $250 bi-weekly (or another compliant payment line) as the hook.",
+      "iteration_ideas": "Current brief bans the $250 bi-weekly figure and the “Mauvais crédit?” call-out. A compliant iteration should keep the low-payments winter angle but use a lowest payment of about $450/month, drop the bad-credit line, and include the not-a-lender line: “MapleDrive is not a lender. Min. income $2,500/month. OAC.” Rebuild this low-payments winter offer without the banned lines.",
       "angle_reasoning": "Loud retail-price offer: “Nouvelle auto. Petits paiements.” and $250 bi-weekly. That’s a Low payments angle. It also uses a “Mauvais crédit?” call-out the current brief bans.",
       "ads": [
         {
@@ -330,7 +353,13 @@
           "ig_preview": "https://www.instagram.com/p/DePbkYaAijs/"
         }
       ],
-      "headline": "Approuvé vite et facilement"
+      "headline": "Approuvé vite et facilement",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "Current brief bans the $250 bi-weekly figure and the “Mauvais crédit?” call-out. A compliant iteration should keep the low-payments winter angle but use a lowest payment of about $450/month, drop the bad-credit line, and include the not-a-lender line: “MapleDrive is not a lender. Min. income $2,500/month. OAC.”",
+      "prompt": "Create a square 1:1 (1080x1080) Facebook feed ad image.\n\nScene: A winter mountain highway in daylight — a plowed, snow-dusted road with a dense evergreen forest and snow-capped mountains under a pale blue sky. In the lower right, a dark grey unbadged 4-door sedan sits on the snowy road, three-quarter front view, facing slightly left, with no other vehicles in the frame. Bright, crisp, slightly glossy retail-photo look — more car-flyer than a candid phone snapshot. Canadian winter landscape.\n\nStyle: Loud French-Canadian auto-retail flyer. Heavy condensed sans-serif headlines on slanted colour bars, an oversized payment figure with a thick outline, and two short slanted banners in the lower left. High contrast, promotional, slightly italic / oblique energy. This is not Maple Drive’s lime-and-navy look.\n\nLayout and placement:\n- Across the top, two slightly slanted rectangular bars stacked, tilting down to the right, overlapping the treeline.\n- Upper bar: deep royal blue (about #0146A3) with white, heavy condensed all-caps text.\n- Lower bar: bright red (about #E10613) with white, heavy condensed all-caps text.\n- Centre-left, a very large payment figure in black with a tight white inner outline and a thicker red outer outline, slightly italic. A small “DÈS” sits just to the left of the figure, slightly above its baseline. “AUX 2 SEMAINES” is stacked in two lines immediately to the right of the figure, same black / white / red outline treatment, much smaller than the number.\n- Lower left, two short slanted banners stacked, tilting up to the right, in front of the snow: a royal blue bar (about #003580) with white text, and a white bar beneath it with black / navy text.\n\nExact on-image text:\n- Top blue bar: \"NOUVELLE AUTO.\"\n- Top red bar: \"PETITS PAIEMENTS.\"\n- Small label left of the figure: \"DÈS\"\n- Giant figure: \"250$\"\n- Right of the figure, line 1: \"AUX 2\"\n- Right of the figure, line 2: \"SEMAINES\"\n- Lower-left blue banner: \"MAUVAIS CRÉDIT?\"\n- Lower-left white banner: \"PAS DE PROBLÈME.\"\n\nColours: royal blue about #0146A3 and #003580, bright red about #E10613, black, white, winter pale-blue sky about #D1E2F6. Font feel: heavy condensed grotesque / Impact-like or tight Inter ExtraBold italic, all caps on the bars and the payment figure, very tight tracking. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written in the on-image text list, spelled correctly, with no extra words, no extra slogans, no URLs, and no lorem ipsum. French only — do not add English. No real car-brand badges or dealer logos (vehicle unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts. No trucks or pickups in this frame (the vehicle is an unbadged sedan).\n",
+      "prompt_source": "written_from_image",
+      "prompt_source_file": null,
+      "prompt_reference": null
     },
     {
       "id": "md_03_credit_var_2026-10-27",
@@ -378,7 +407,17 @@
           "ig_preview": "https://www.instagram.com/p/DfBVmp_AQBe/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "I've attached a reference ad image (credit_5.jpg) from another advertiser. Use it ONLY as inspiration for format, layout, composition and the low-fi native feel. Do not copy it. Create a brand-new square 1:1 (1080x1080) Facebook feed ad for Maple Drive.\n\nKeep from the reference: the bold big-word layout: a huge white condensed headline split across the top and bottom of the frame, with a close-up still-life of a wooden mousetrap and a car key fob on a wooden surface in the middle.\n\nChange: the mousetrap is empty and unsprung, and a hand is lifting the plain unbadged black key fob up and away from it, with a lime #D5FF40 tag on the key ring. Background is deep navy #0F172A instead of grey. Add a lime pill with navy text under the bottom headline. No brand logos on the key. No trucks or pickups anywhere in the image.\n\nRemove EVERYTHING that belongs to the original advertiser: the name Canada Drives, their logo, website, watermark, handles, all their text, and their brand colours. Do not include any Canada Drives trademark or anything that looks like their branding.\n\nExact new on-image text:\n- Top headline: \"DON'T FEEL TRAPPED\"\n- Bottom headline: \"BY YOUR CREDIT.\"\n- Lime pill: \"All credit types welcome\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written in the on-image text list, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts. No trucks or pickups anywhere in the image. The only vehicles allowed are unbadged sedans, hatchbacks, SUVs, crossovers and vans.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-27/03_credit_var.prompt.txt",
+      "prompt_reference": {
+        "filename": "credit_5.jpg",
+        "path": "/workspace/mapledrive/refs/credit_5.jpg",
+        "available": true
+      }
     },
     {
       "id": "md_10_demo_orig",
@@ -426,7 +465,13 @@
           "ig_preview": "https://www.instagram.com/p/DfA9N-JguOf/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "Create a square 1:1 (1080x1080) Facebook feed ad image.\n\nScene: Top-down phone photo of a printed 3x3 bingo card on a clipboard on a car's passenger seat, with a lime #D5FF40 bingo dauber beside it. Three squares in the top row are stamped with lime dots. Hand-drawn style, navy text on white. Car keys and a coffee cup nearby. Natural daylight.\n\nStyle: low-fi, native-looking Facebook post. It should look like a real smartphone photo (natural light, slightly imperfect framing, a little grain), not a glossy studio ad. Canadian setting.\n\nExact on-image text:\n- Card title: \"CAR SHOPPING BINGO\"\n- Squares (left to right, top to bottom): \"Know my budget\" / \"Get pre-approved\" / \"No pressure\" / \"Sedan?\" / \"FREE SPACE\" / \"SUV?\" / \"Test drive\" / \"Pick colour\" / \"Drive home\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written in the on-image text list, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts. No trucks or pickups anywhere in the image. The only vehicles allowed are unbadged sedans, hatchbacks, SUVs, crossovers and vans.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-27/10_demo_orig.prompt.txt",
+      "prompt_reference": null
     },
     {
       "id": "md_06_clearance_orig",
@@ -474,7 +519,13 @@
           "ig_preview": "https://www.instagram.com/p/DfBVma7AX0i/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "Create a square 1:1 (1080x1080) Facebook feed ad image.\n\nScene: Phone photo from inside a car wash bay looking toward the exit: an unbadged, freshly washed shiny blue sedan rolling out of the tunnel with water droplets and soap foam on the floor. Above the exit hangs a black LED message board showing bright lime #D5FF40 dot-matrix letters. Daylight outside the exit. No trucks or pickups anywhere in the image, no car-wash brand names.\n\nStyle: low-fi, native-looking Facebook post. It should look like a real smartphone photo (natural light, slightly imperfect framing, a little grain), not a glossy studio ad. Canadian setting.\n\nExact on-image text:\n- LED board line 1: \"NEXT STOP:\"\n- LED board line 2: \"GET PRE-APPROVED\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written in the on-image text list, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts. No trucks or pickups anywhere in the image. The only vehicles allowed are unbadged sedans, hatchbacks, SUVs, crossovers and vans.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-27/06_clearance_orig.prompt.txt",
+      "prompt_reference": null
     },
     {
       "id": "md_09_fleet_orig",
@@ -536,7 +587,13 @@
           "ig_preview": "https://www.instagram.com/p/Dexo5k2A8Gz/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "Create a square 1:1 (1080x1080) Facebook feed ad image.\n\nScene: Driver's-seat POV phone photo inside a work truck: a clipboard on the dashboard with a handwritten to-do list on lined paper, a coffee in the cupholder, and a snowy construction site visible through the windshield. A bold white caption with a slight shadow sits at the top.\n\nStyle: low-fi, native-looking Facebook post. It should look like a real smartphone photo (natural light, slightly imperfect framing, a little grain), not a glossy studio ad. Canadian setting.\n\nExact on-image text:\n- Top caption: \"Your business runs on your truck.\"\n- Clipboard handwritten title: \"TO DO\"\n- Clipboard line 1: \"Order lumber\"\n- Clipboard line 2 (circled): \"Get pre-approved for a work truck\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/09_fleet_orig.prompt.txt",
+      "prompt_reference": null
     },
     {
       "id": "md_08_powersports_var",
@@ -584,7 +641,17 @@
           "ig_preview": "https://www.instagram.com/p/Dexo3y3ArB-/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "I've attached a reference ad image (powersports_2.jpg) from another advertiser. Use it ONLY as inspiration for format, layout, composition and the low-fi native feel. Do not copy it. Create a brand-new square 1:1 (1080x1080) Facebook feed ad for Maple Drive.\n\nKeep from the reference: the wide snowy outdoor photo in the top part with a hand-painted sign as the focal point, and a clean white strip across the bottom with a two-by-two list of short benefits.\n\nChange: instead of a lot and fence, show a hand-painted plywood sign leaning in a snowbank at the side of a rural Canadian road, with an unbadged 4x4 pickup and an unbadged SUV driving past through blowing snow. No snowmobiles or ATVs. The bottom benefits use small lime #D5FF40 check icons instead of emoji.\n\nRemove EVERYTHING that belongs to the original advertiser: the name Canada Drives, their logo, website, watermark, handles, all their text, and their brand colours. Do not include any Canada Drives trademark or anything that looks like their branding.\n\nExact new on-image text:\n- Hand-painted sign: \"4x4? GET PRE-APPROVED\"\n- Bottom list: \"All credit types welcome\" / \"Apply online\" / \"Canada-wide\" / \"No pressure\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/08_powersports_var.prompt.txt",
+      "prompt_reference": {
+        "filename": "powersports_2.jpg",
+        "path": "/workspace/mapledrive/refs/powersports_2.jpg",
+        "available": true
+      }
     },
     {
       "id": "md_08_powersports_orig",
@@ -632,7 +699,13 @@
           "ig_preview": "https://www.instagram.com/p/Dexo37mA2X5/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "Create a square 1:1 (1080x1080) Facebook feed ad image.\n\nScene: Phone photo at dawn of a person in a winter coat and mitts scraping thick ice off the windshield of an old, rusty unbadged hatchback, with a newer unbadged SUV visible parked across the snowy street. Breath visible in the cold air. A white bold caption sits at the top, and a lime #D5FF40 pill with navy text sits at the bottom left.\n\nStyle: low-fi, native-looking Facebook post. It should look like a real smartphone photo (natural light, slightly imperfect framing, a little grain), not a glossy studio ad. Canadian setting.\n\nExact on-image text:\n- Top caption: \"This winter, upgrade to an SUV or truck.\"\n- Bottom pill: \"Get pre-approved first\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/08_powersports_orig.prompt.txt",
+      "prompt_reference": null
     },
     {
       "id": "md_01_repo_var_2026-10-22",
@@ -680,7 +753,17 @@
           "ig_preview": "https://www.instagram.com/p/Dexlb1TgZLh/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "I've attached a reference ad image (repo_1.jpg) from another advertiser. Use it ONLY as inspiration for format, layout, composition and the low-fi native feel. Do not copy it. Create a brand-new square 1:1 (1080x1080) Facebook feed ad for Maple Drive.\n\nKeep from the reference: the text-only card: a smooth diagonal colour gradient filling the whole square, with two short centred lines of bold white text in the middle, nothing else.\n\nChange: use a gradient from deep navy #0F172A (top left) to lime #D5FF40 (bottom right) instead of pink and purple, with the text in white on the navy half and a soft shadow so it stays readable. Make the second line slightly larger.\n\nRemove EVERYTHING that belongs to the original advertiser: the name Canada Drives, their logo, website, watermark, handles, all their text, and their brand colours. Do not include any Canada Drives trademark or anything that looks like their branding.\n\nExact new on-image text:\n- Line 1: \"Don't shop for a car blind…\"\n- Line 2: \"Get pre-approved first\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/01_repo_var.prompt.txt",
+      "prompt_reference": {
+        "filename": "repo_1.jpg",
+        "path": "/workspace/mapledrive/refs/repo_1.jpg",
+        "available": true
+      }
     },
     {
       "id": "md_05_rental_orig",
@@ -728,7 +811,13 @@
           "ig_preview": "https://www.instagram.com/p/DezVnHiA15u/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "Create a square 1:1 (1080x1080) Facebook feed ad image.\n\nScene: A forum-post style card filling the square on a light grey background: a white rounded post card with a plain round lime #D5FF40 avatar with no logo, the username 'mapledrive', a bold post title, a short body paragraph, and below it one phone photo of an unbadged silver SUV in a driveway with fall leaves. No vote, like, comment or view counts and no app or website names.\n\nStyle: native, UGC-looking social post screenshot, clean but not a glossy ad.\n\nExact on-image text:\n- Username: \"mapledrive\"\n- Post title: \"PSA: Get pre-approved BEFORE you go car shopping\"\n- Post body: \"You'll know your budget, and nobody can pressure you into more.\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/05_rental_orig.prompt.txt",
+      "prompt_reference": null
     },
     {
       "id": "md_09_fleet_var",
@@ -776,7 +865,17 @@
           "ig_preview": "https://www.instagram.com/p/Dexo5aWggAR/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "I've attached a reference ad image (fleet_2.jpg) from another advertiser. Use it ONLY as inspiration for format, layout, composition and the low-fi native feel. Do not copy it. Create a brand-new square 1:1 (1080x1080) Facebook feed ad for Maple Drive.\n\nKeep from the reference: a real phone photo of a row of white work vehicles, a hand-lettered sign as the focal point, a small Canadian flag on a pole, and a solid dark panel with a headline, a two-column checkmark list and a short footer line.\n\nChange: flip the layout so the navy #0F172A panel is across the TOP third and the photo is below it. Show a light-industrial yard on a rainy late-fall day with a row of unbadged white cargo vans. The hand-lettered sign is taped to a van's side window. Checkmarks are lime #D5FF40.\n\nRemove EVERYTHING that belongs to the original advertiser: the name Canada Drives, their logo, website, watermark, handles, all their text, and their brand colours. Do not include any Canada Drives trademark or anything that looks like their branding.\n\nExact new on-image text:\n- Panel headline: \"Running a small business?\"\n- Checkmarks: \"Vans & trucks\" / \"All credit types\" / \"Quick online form\" / \"Bank-level security\"\n- Panel footer (lime): \"Fill out. Get matched. Drive.\"\n- Hand-lettered sign on the van: \"WORK VANS? GET PRE-APPROVED\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/09_fleet_var.prompt.txt",
+      "prompt_reference": {
+        "filename": "fleet_2.jpg",
+        "path": "/workspace/mapledrive/refs/fleet_2.jpg",
+        "available": true
+      }
     },
     {
       "id": "md_03_credit_var_2026-10-22",
@@ -824,7 +923,17 @@
           "ig_preview": "https://www.instagram.com/p/DexlTE1A9ig/"
         }
       ],
-      "headline": "Fast and Easy Approval"
+      "headline": "Fast and Easy Approval",
+      "how_to_iterate": "Keep the angle, change one variable.",
+      "compliant_iteration": "",
+      "prompt": "I've attached a reference ad image (credit_2.jpg) from another advertiser. Use it ONLY as inspiration for format, layout, composition and the low-fi native feel. Do not copy it. Create a brand-new square 1:1 (1080x1080) Facebook feed ad for Maple Drive.\n\nKeep from the reference: a big Canadian flag on the left side of a photo, a huge bold condensed white stacked headline across the top right with one small word in a contrasting colour, and a right-aligned checkmark list in the lower right.\n\nChange: a new photo: a Canadian flag hanging from a snowy house porch at dusk with warm window light. The small contrasting word is lime #D5FF40. Checkmarks are lime squares with navy ticks. Do NOT mention newcomers or credit history.\n\nRemove EVERYTHING that belongs to the original advertiser: the name Canada Drives, their logo, website, watermark, handles, all their text, and their brand colours. Do not include any Canada Drives trademark or anything that looks like their branding.\n\nExact new on-image text:\n- Headline line 1: \"BEEN TURNED\"\n- Headline line 2 (small lime word): \"DOWN\"\n- Headline line 3: \"BEFORE?\"\n- Checkmarks: \"Easy online pre-approval\" / \"All credit types welcome\" / \"Sedan, SUV, van or truck\" / \"Canada-wide\"\n\nBrand colours: lime green #D5FF40, deep navy #0F172A, white. Font style: Inter-like bold clean sans-serif. Do NOT put any logo, logo mark, \"M\" mark, wordmark or brand signature anywhere in the image (no corner logo).\n\nRender every piece of on-image text EXACTLY as written below, spelled correctly, with no extra words, no extra slogans, no URLs other than the ones given, and no lorem ipsum. No real car-brand badges or dealer logos (vehicles unbadged or turned so badges are not readable), and licence plates blank or blurred. No other company names or trademarks. No like, comment, share, upvote or view counts.",
+      "prompt_source": "original",
+      "prompt_source_file": "/workspace/mapledrive/daily/2026-10-22/03_credit_var.prompt.txt",
+      "prompt_reference": {
+        "filename": "credit_2.jpg",
+        "path": "/workspace/mapledrive/refs/credit_2.jpg",
+        "available": true
+      }
     }
   ]
 }

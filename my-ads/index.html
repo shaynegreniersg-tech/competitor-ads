@@ -97,6 +97,21 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13px}
 .badge.unc{background:#f97316;color:#fff;left:8px;top:60px}
 .thumb .ph b.miss{color:#fecaca}
 .file-note{font-size:11.5px;color:var(--mut);margin:0 0 8px}
+.prompt-box{margin:0 0 10px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;overflow:hidden}
+.prompt-tog{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font:inherit;font-size:13px;font-weight:700;text-align:left;background:transparent;border:0;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.prompt-tog .src{font-size:11.5px;font-weight:650;color:var(--mut);text-transform:none;letter-spacing:0}
+.prompt-tog .chev{color:var(--mut);font-weight:700}
+.prompt-body{display:none;padding:0 12px 12px;border-top:1px solid var(--line)}
+.prompt-box.open .prompt-body{display:block}
+.prompt-box.open .prompt-tog .chev{transform:rotate(180deg)}
+.prompt-body .how,.prompt-body .ref{font-size:12.5px;color:#334155;margin:10px 0 8px}
+.prompt-body .ref{background:#eef2ff;border-radius:8px;padding:8px 10px}
+.prompt-body pre{margin:0 0 8px;padding:10px;background:#0f172a;color:#e2e8f0;border-radius:8px;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:280px;overflow:auto}
+.prompt-body .pending{margin:10px 0;color:var(--mut);font-size:13.5px}
+.prompt-actions{display:flex;align-items:center;gap:8px}
+.prompt-actions .copy{font:inherit;font-size:12.5px;font-weight:650;padding:5px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;color:var(--ink)}
+.prompt-actions .copy:hover{border-color:#94a3b8}
+.prompt-actions .copied{font-size:12.5px;color:#14532d;font-weight:650}
 .ads{margin:0 0 10px;padding:0;list-style:none;border-top:1px solid var(--line)}
 .ads li{padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:#334155}
 .ads li .row{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
@@ -225,7 +240,7 @@ function isWatch(c){
 }
 function searchBlob(c){
   const ads=(c.ads||[]).map(a=>[a.ad_id,a.ad_name,a.adset_name,a.title,a.body,a.region,a.language].join(' ')).join(' ');
-  return [c.id,c.name,c.format,typeOf(c).label,c.type,angleOf(c.angle).label,c.angle,c.status,c.notes,c.iteration_ideas,c.angle_reasoning,c.headline,ads].join(' ').toLowerCase();
+  return [c.id,c.name,c.format,typeOf(c).label,c.type,angleOf(c.angle).label,c.angle,c.status,c.notes,c.iteration_ideas,c.angle_reasoning,c.headline,c.prompt,ads].join(' ').toLowerCase();
 }
 function filtered(){
   const q=S.q.trim().toLowerCase();
@@ -403,6 +418,50 @@ function copyHTML(c){
   return `${title?`<h3 style="font-size:14px;margin:0 0 4px">${esc(title)}</h3>`:''}${body?`<p class="ptx${long?' clip':''}">${esc(body)}</p>`:''}${long?'<button class="more" type="button">Show full copy</button>':''}`;
 }
 
+
+function sourceLabel(c){
+  return c.prompt_source==='original'?'original prompt used':c.prompt_source==='written_from_image'?'written from the image':'';
+}
+function copyTextFor(c){
+  if(c.prompt_source==='pending'||!c.prompt)return'Prompt pending: image needed';
+  const ref=c.prompt_reference;
+  let head='';
+  if(ref&&ref.filename){
+    head='Reference image to attach: '+ref.filename+'\n';
+    if(ref.path)head+='Path on the box: '+ref.path+'\n';
+    else head+='(Reference file was not found under /workspace/mapledrive/refs)\n';
+    head+='Use it only as inspiration for format, layout, composition and the low-fi native feel. Do not copy it.\n\n';
+  }
+  return head+c.prompt;
+}
+function promptHTML(c){
+  const how=c.how_to_iterate||(D.meta&&D.meta.how_to_iterate)||'Keep the angle, change one variable.';
+  const src=sourceLabel(c);
+  const pending=c.prompt_source==='pending'||!c.prompt;
+  const ref=c.prompt_reference;
+  const compliant=c.compliant_iteration&&c.compliant_iteration.trim();
+  let refNote='';
+  if(ref&&ref.filename){
+    refNote=`<p class="ref">Reference image: <b>${esc(ref.filename)}</b>${ref.path?' — <code>'+esc(ref.path)+'</code>':''}. Attach this when you rerun the prompt; use it only as inspiration, do not copy it.${ref.available===false?' (Not found under /workspace/mapledrive/refs.)':''}</p>`;
+  }
+  if(pending){
+    return `<div class="prompt-box open">
+      <button type="button" class="prompt-tog" aria-expanded="true"><span>Recreation prompt</span><span class="src">Prompt pending: image needed</span></button>
+      <div class="prompt-body"><p class="pending">Prompt pending: image needed</p></div>
+    </div>`;
+  }
+  return `<div class="prompt-box">
+    <button type="button" class="prompt-tog" aria-expanded="false"><span>Recreation prompt</span><span class="src">${esc(src)}</span><span class="chev" aria-hidden="true">▾</span></button>
+    <div class="prompt-body">
+      <p class="how">How to iterate: ${esc(how)}</p>
+      ${refNote}
+      <pre class="prompt-text">${esc(c.prompt)}</pre>
+      <div class="prompt-actions"><button type="button" class="copy">Copy</button><span class="copied" hidden>Copied</span></div>
+      ${compliant?`<div class="warn" style="margin-top:10px"><h4>Compliant iteration</h4><p>${esc(compliant)}</p></div>`:''}
+    </div>
+  </div>`;
+}
+
 function cardHTML(c){
   const t=typeOf(c), a=angleOf(c.angle);
   const st=c.status||'off';
@@ -445,6 +504,7 @@ function cardHTML(c){
         ${!banned&&notes?`<p>${esc(notes)}</p>`:''}
         ${ideas?`<p>${esc(ideas)}</p>`:'<p class="empty">Add iteration ideas when you decide the next version of this angle.</p>'}
       </div>
+      ${promptHTML(c)}
     </div>
   </article>`;
 }
@@ -552,11 +612,39 @@ document.getElementById('sort').addEventListener('change',e=>{S.sort=e.target.va
 document.addEventListener('click',e=>{
   const more=e.target.closest('.more');
   if(more){const p=more.previousElementSibling;if(p){p.classList.toggle('clip');more.textContent=p.classList.contains('clip')?'Show full copy':'Hide full copy'}return}
+  const tog=e.target.closest('.prompt-tog');
+  if(tog){
+    const box=tog.closest('.prompt-box');
+    if(box&&!tog.querySelector('.pending')&&box.querySelector('pre.prompt-text')){
+      const open=box.classList.toggle('open');
+      tog.setAttribute('aria-expanded',open?'true':'false');
+    }
+    return;
+  }
+  const copy=e.target.closest('.prompt-actions .copy');
+  if(copy){
+    const box=copy.closest('.prompt-box');
+    const article=copy.closest('article[data-id]');
+    const cr=(D.creatives||[]).find(x=>x.id===article.dataset.id);
+    const text=cr?copyTextFor(cr):(box.querySelector('pre.prompt-text')||{}).textContent||'';
+    const done=()=>{const s=box.querySelector('.copied');if(s){s.hidden=false;clearTimeout(s._t);s._t=setTimeout(()=>{s.hidden=true},1600)} copy.textContent='Copied';setTimeout(()=>copy.textContent='Copy',1600)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
+    }else fallbackCopy(text,done);
+    return;
+  }
   const img=e.target.closest('.thumb img[data-full]');
   if(img){const lb=document.getElementById('lb');lb.querySelector('img').src=img.dataset.full;lb.classList.add('on');return}
   const lb=e.target.closest('#lb');
   if(lb){lb.classList.remove('on');lb.querySelector('img').removeAttribute('src')}
 });
+function fallbackCopy(text,done){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.left='-9999px';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');if(done)done()}catch(err){}
+  document.body.removeChild(ta);
+}
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){const lb=document.getElementById('lb');if(lb){lb.classList.remove('on');const im=lb.querySelector('img');if(im)im.removeAttribute('src')}}
 });

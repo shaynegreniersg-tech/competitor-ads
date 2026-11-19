@@ -11,9 +11,9 @@
     "watchlist_rule": "Flag a creative when status is off or paused AND the chosen ROAS (Meta dashboard purchase ROAS, or payout ROAS if Meta ROAS is null) is at or above watchlist_roas_threshold.",
     "notes": "This page is structure-only. All metric fields must stay null until Shayne asks to connect ad account data. Exclude anything named Cheaper (not Maple Drive). Approval/credit-friendly benefit ads must not use 'bad credit?' call-outs. Site is public on GitHub Pages.",
     "metrics_note": "Top-ad rankings will use Meta dashboard purchase ROAS. Payout ROAS uses updated payouts. Both are stored separately.",
-    "updated": "2026-11-19T18:16:53-05:00",
+    "updated": "2026-11-19T18:30:03-05:00",
     "creatives": 0,
-    "version": "2368f11f568e"
+    "version": "b51b80968833"
   },
   "types": {
     "video": [

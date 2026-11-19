@@ -11,3 +11,6 @@ Facebook ads from **Canada Drives** (Ad Library, Canada, active ads sorted by im
 - `videos/`: one MP4 per unique video (H.264/AAC, faststart) plus a compressed poster (`*_p.jpg`)
 
 This repo is generated. Don't edit it by hand: the build (`build.py` + `publish.sh`) overwrites it on every update.
+
+A header page menu (see `page-switcher.js`) switches between this Canada Drives dashboard and **Maple Drive My ads** at [./my-ads/](./my-ads/). The page list is defined once in the build (`pages.json`).
+

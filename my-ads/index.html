@@ -85,10 +85,32 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13px}
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;margin:0 0 10px;padding:9px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .metrics div{min-width:0}.metrics span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}.metrics b{font-size:13.5px;font-variant-numeric:tabular-nums}
 .meta{font-size:12.5px;color:var(--mut);margin:0 0 10px}
-.iterate{background:#f8fafc;border:1px dashed #e2e8f0;border-radius:10px;padding:8px 10px}
-.iterate h4{margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
-.iterate p{margin:0 0 6px;font-size:13px;color:#334155;white-space:pre-line}.iterate p:last-child{margin:0}
-.iterate .empty{color:var(--mut);font-style:normal}
+.iterate,.fit,.warn{background:#f8fafc;border:1px dashed #e2e8f0;border-radius:10px;padding:8px 10px;margin:0 0 8px}
+.iterate h4,.fit h4,.warn h4{margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.iterate p,.fit p,.warn p{margin:0 0 6px;font-size:13px;color:#334155;white-space:pre-line}.iterate p:last-child,.fit p:last-child,.warn p:last-child{margin:0}
+.iterate .empty,.fit .empty{color:var(--mut);font-style:normal}
+.fit{background:#eef2ff;border-style:solid;border-color:#c7d2fe}
+.fit .angle{display:block;font-size:16px;font-weight:750;color:var(--c,#1d4ed8);margin:2px 0 6px;line-height:1.25}
+.warn{background:#fff7ed;border-style:solid;border-color:#fdba74}
+.warn h4{color:#9a3412}
+.badge.top{background:#fbbf24;color:#1f1300;left:8px;top:34px}
+.badge.unc{background:#f97316;color:#fff;left:8px;top:60px}
+.thumb .ph b.miss{color:#fecaca}
+.file-note{font-size:11.5px;color:var(--mut);margin:0 0 8px}
+.ads{margin:0 0 10px;padding:0;list-style:none;border-top:1px solid var(--line)}
+.ads li{padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:#334155}
+.ads li .row{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.ads .st{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:4px}
+.ads .st.active{background:#dcfce7;color:#14532d}
+.ads .st.paused,.ads .st.off{background:#e2e8f0;color:#334155}
+.ads a.view{font-weight:650;text-decoration:none}
+.ads a.view:hover{text-decoration:underline}
+.ptx{font-size:13px;color:#334155;margin:0 0 8px;white-space:pre-line}
+.ptx.clip{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.more{font:inherit;font-size:12px;color:var(--acc);background:none;border:0;padding:0;cursor:pointer}
+#lb{display:none;position:fixed;inset:0;background:rgba(15,23,42,.82);z-index:80;align-items:center;justify-content:center;padding:24px}
+#lb.on{display:flex}#lb img{max-width:min(1080px,96vw);max-height:92vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#lb .x{position:absolute;top:12px;right:16px;font-size:28px;color:#fff;background:none;border:0;cursor:pointer}
 .empty-state{background:var(--card);border:1px dashed #cbd5e1;border-radius:16px;padding:42px 24px;text-align:center;margin:8px 0 40px;color:var(--mut)}
 .empty-state h3{margin:0 0 8px;color:var(--ink);font-size:18px}
 .empty-state p{margin:0 auto;max-width:520px}
@@ -105,7 +127,7 @@ footer a{color:inherit}
     <div id="page-switch"></div>
   </div>
   <h1>My ads</h1>
-  <p class="sub">Our creatives, grouped by type and message angle — so winning formats can be iterated, and profitable ads that got turned off don’t slip by. Performance numbers will show here once ad account data is connected. Nothing has been pulled yet.</p>
+  <p class="sub">Shayne’s Sep–Nov top performers (around or above 1.0 ROAS, per Shayne), grouped by message angle so we can see whether the classification fits. Performance numbers stay blank — nothing has been pulled from the ad account.</p>
   <div class="stats" id="stats"></div>
 </div></div>
 <div class="controls"><div class="wrap">
@@ -114,14 +136,14 @@ footer a{color:inherit}
     <div class="modes" id="statuses"></div>
     <div class="search"><input id="q" type="search" placeholder="Search name, type, angle, notes…"></div>
     <select id="sort" title="Sort">
+      <option value="newest">Sort: newest launch</option>
       <option value="meta_roas">Sort: Meta purchase ROAS</option>
       <option value="payout_roas">Sort: payout ROAS</option>
       <option value="spend">Sort: spend</option>
-      <option value="newest">Sort: newest launch</option>
       <option value="oldest">Sort: oldest launch</option>
       <option value="name">Sort: name</option>
     </select>
-    <button class="btn on" id="grp" title="Group cards into type sections">Group by type</button>
+    <button class="btn on" id="grp" title="Group cards into angle sections">Group by angle</button>
     <button class="btn" id="reset">Reset</button>
     <span class="count" id="count"></span>
   </div>
@@ -134,11 +156,11 @@ footer a{color:inherit}
     <section class="panel p-note">
       <div>
         <h2>Type is how it’s made</h2>
-        <p>Videos: skit, street interview, UGC, voice-over on image/b-roll. Images: payment offer, testimonial/social proof, car showcase, approval/credit-friendly benefit (no “bad credit?” call-outs), lifestyle. Plus Other.</p>
+        <p>Execution style, kept separate from the message: retail-price offer, quiz/question hook, native photo with handwriting, prop, sign, or a problem shot, visual metaphor, text card, social-post style, headline + checklist. Plus Other.</p>
       </div>
       <div>
         <h2>Angle is the message</h2>
-        <p>Fast approval, payment-led offer, credit-friendly / get approved, inventory, social proof, drive away soon, how it works, easy start, lifestyle. Type and angle are independent, so filters work on both.</p>
+        <p>Credit struggles / turned down, get pre-approved before you shop, low payments, work vehicle / small business owner, winter upgrade / 4x4 / truck, and gamified / interactive. Type and angle are independent. Use “Does this angle fit?” on each card as a visual check — nothing is written back.</p>
       </div>
     </section>
     <section class="panel p-watch watch empty" id="watch"></section>
@@ -148,6 +170,7 @@ footer a{color:inherit}
   <div id="results"></div>
   <footer id="foot"></footer>
 </main>
+<div id="lb"><button class="x" type="button" title="Close (Esc)">×</button><img alt=""></div>
 <script>
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const dash='<span class="dash">—</span>';
@@ -160,7 +183,7 @@ const fmtD=t=>{if(!t)return'—';const d=new Date(t+'T12:00:00');return isNaN(d)
 const orDash=v=>v==null||v===''?dash:esc(v);
 
 let D=null;
-const S={format:'all',type:null,angle:null,status:'all',q:'',sort:'meta_roas',group:'type'};
+const S={format:'all',type:null,angle:null,status:'all',q:'',sort:'newest',group:'angle'};
 
 function typeMap(format){
   const list=(format==='image'?D.types.image:format==='video'?D.types.video:[...D.types.image,...D.types.video]);
@@ -201,7 +224,8 @@ function isWatch(c){
   return r!=null && r>=th;
 }
 function searchBlob(c){
-  return [c.id,c.name,c.format,typeOf(c).label,c.type,angleOf(c.angle).label,c.angle,c.status,c.notes,c.iteration_ideas].join(' ').toLowerCase();
+  const ads=(c.ads||[]).map(a=>[a.ad_id,a.ad_name,a.adset_name,a.title,a.body,a.region,a.language].join(' ')).join(' ');
+  return [c.id,c.name,c.format,typeOf(c).label,c.type,angleOf(c.angle).label,c.angle,c.status,c.notes,c.iteration_ideas,c.angle_reasoning,c.headline,ads].join(' ').toLowerCase();
 }
 function filtered(){
   const q=S.q.trim().toLowerCase();
@@ -347,13 +371,36 @@ function renderWatch(){
 
 function thumbHTML(c){
   const label=esc(c.format==='video'?'Video':'Image');
-  if(c.thumbnail){
-    return `<img src="${esc(c.thumbnail)}" alt="${esc(c.name||c.id||'Creative')}">`;
+  const src=c.thumbnail||(c.format==='image'?c.media:'');
+  if(src){
+    const open=c.media?` data-full="${esc(c.media)}" style="cursor:zoom-in"`:'';
+    return `<img src="${esc(src)}" alt="${esc(c.name||c.id||'Creative')}"${open}>`;
   }
-  if(c.media && c.format==='image'){
-    return `<img src="${esc(c.media)}" alt="${esc(c.name||c.id||'Creative')}">`;
-  }
-  return `<div class="ph"><b>No preview yet</b>${label} · upload coming</div>`;
+  return `<div class="ph"><b class="miss">Image not available yet</b>${label} · placeholder</div>`;
+}
+
+function adsHTML(c){
+  const ads=c.ads||[];
+  if(!ads.length)return'';
+  const items=ads.map(a=>{
+    const bits=[];
+    if(a.adset_name)bits.push(esc(a.adset_name));
+    if(a.region)bits.push(esc(a.region));
+    if(a.language)bits.push(esc(a.language));
+    if(a.launch_date)bits.push('launched '+fmtD(a.launch_date));
+    const st=`<span class="st ${esc(a.status||'')}">${esc(a.status||'')}</span>`+(a.adset_status==='paused'&&a.status!=='paused'?` <span class="st paused">ad set paused</span>`:a.adset_status==='paused'?` <span class="st paused">ad set paused</span>`:'');
+    const view=a.ig_preview?` <a class="view" href="${esc(a.ig_preview)}" target="_blank" rel="noopener noreferrer">View</a>`:'';
+    return `<li><div class="row">${st}${view}</div><div>${bits.join(' · ')}</div></li>`;
+  }).join('');
+  return `<ul class="ads">${items}</ul>`;
+}
+
+function copyHTML(c){
+  const title=c.headline||(c.ads&&c.ads[0]&&c.ads[0].title)||'';
+  const body=(c.ads&&c.ads[0]&&c.ads[0].body)||'';
+  if(!title&&!body)return'';
+  const long=(body||'').length>220;
+  return `${title?`<h3 style="font-size:14px;margin:0 0 4px">${esc(title)}</h3>`:''}${body?`<p class="ptx${long?' clip':''}">${esc(body)}</p>`:''}${long?'<button class="more" type="button">Show full copy</button>':''}`;
 }
 
 function cardHTML(c){
@@ -361,12 +408,29 @@ function cardHTML(c){
   const st=c.status||'off';
   const notes=c.notes&&c.notes.trim();
   const ideas=c.iteration_ideas&&c.iteration_ideas.trim();
+  const why=c.angle_reasoning&&c.angle_reasoning.trim();
+  const top=c.top_performer;
+  const topLabel=c.top_performer_label||'Top performer (≈1.0+ ROAS, Sep–Nov, per Shayne)';
+  const unc=c.unconfirmed;
+  const badges=`<span class="badge ${esc(st)}">${esc(st)}</span>`+(top?`<span class="badge top" title="${esc(topLabel)}">Top performer</span>`:'')+(unc?`<span class="badge unc">Unconfirmed</span>`:'');
+  const tags=[t.label,a.label,top?topLabel:null,unc?'Unconfirmed':null].filter(Boolean);
+  const banned=notes&&/Mauvais crédit|bad credit/i.test(notes);
   return `<article class="card ${st}" data-id="${esc(c.id)}">
-    <div class="thumb"><span class="badge ${esc(st)}">${esc(st)}</span><span class="fmtb">${c.format==='video'?'Video':'Image'}</span>${thumbHTML(c)}</div>
+    <div class="thumb">${badges}<span class="fmtb">${c.format==='video'?'Video':'Image'}</span>${thumbHTML(c)}</div>
     <div class="body">
       <div class="angl" style="--c:${a.color}">${esc(a.label)}</div>
       <h3>${esc(c.name||c.id||'Untitled creative')}</h3>
-      <div class="tags"><span class="tag">${esc(t.label)}</span><span class="tag">${esc(a.label)}</span></div>
+      <div class="tags">${tags.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div>
+      <div class="fit">
+        <h4>Does this angle fit?</h4>
+        <span class="angle" style="--c:${a.color}">${esc(a.label)}</span>
+        ${why?`<p>${esc(why)}</p>`:'<p class="empty">No angle reasoning yet.</p>'}
+        <p class="empty">Visual check only — nothing is saved from this page.</p>
+      </div>
+      ${banned?`<div class="warn"><h4>Needs a compliant iteration</h4><p>${esc(notes)}</p></div>`:''}
+      ${copyHTML(c)}
+      ${c.image_from_build_file?`<p class="file-note">Image from our build file for that date; may differ slightly from the live upload.</p>`:''}
+      ${adsHTML(c)}
       <div class="metrics">
         <div><span>Spend</span><b>${orDash(money(c.spend))}</b></div>
         <div><span>Meta ROAS</span><b>${orDash(roas(c.meta_roas))}</b></div>
@@ -375,11 +439,11 @@ function cardHTML(c){
         <div><span>CTR</span><b>${orDash(pct(c.ctr))}</b></div>
         <div><span>Hook rate</span><b>${orDash(pct(c.hook_rate))}</b></div>
       </div>
-      <p class="meta">Launched ${fmtD(c.launch_date)} · First active ${fmtD(c.first_active)} · Last active ${fmtD(c.last_active)}</p>
+      <p class="meta">Launched ${fmtD(c.launch_date)}</p>
       <div class="iterate">
         <h4>Iterate this winner</h4>
-        ${notes?`<p>${esc(notes)}</p>`:'<p class="empty">No notes yet.</p>'}
-        ${ideas?`<p>${esc(ideas)}</p>`:'<p class="empty">Add iteration ideas in my_ads.json when you classify this creative.</p>'}
+        ${!banned&&notes?`<p>${esc(notes)}</p>`:''}
+        ${ideas?`<p>${esc(ideas)}</p>`:'<p class="empty">Add iteration ideas when you decide the next version of this angle.</p>'}
       </div>
     </div>
   </article>`;
@@ -447,13 +511,13 @@ function render(){
 }
 
 function cycleGroup(){
-  S.group=S.group==='type'?'angle':S.group==='angle'?null:'type';
+  S.group=S.group==='angle'?'type':S.group==='type'?null:'angle';
   render();
 }
 function reset(){
-  S.format='all';S.type=null;S.angle=null;S.status='all';S.q='';S.sort='meta_roas';S.group='type';
+  S.format='all';S.type=null;S.angle=null;S.status='all';S.q='';S.sort='newest';S.group='angle';
   document.getElementById('q').value='';
-  document.getElementById('sort').value='meta_roas';
+  document.getElementById('sort').value='newest';
   render();
 }
 
@@ -485,6 +549,17 @@ document.getElementById('grp').addEventListener('click',cycleGroup);
 document.getElementById('reset').addEventListener('click',reset);
 document.getElementById('q').addEventListener('input',e=>{S.q=e.target.value;render()});
 document.getElementById('sort').addEventListener('change',e=>{S.sort=e.target.value;render()});
+document.addEventListener('click',e=>{
+  const more=e.target.closest('.more');
+  if(more){const p=more.previousElementSibling;if(p){p.classList.toggle('clip');more.textContent=p.classList.contains('clip')?'Show full copy':'Hide full copy'}return}
+  const img=e.target.closest('.thumb img[data-full]');
+  if(img){const lb=document.getElementById('lb');lb.querySelector('img').src=img.dataset.full;lb.classList.add('on');return}
+  const lb=e.target.closest('#lb');
+  if(lb){lb.classList.remove('on');lb.querySelector('img').removeAttribute('src')}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){const lb=document.getElementById('lb');if(lb){lb.classList.remove('on');const im=lb.querySelector('img');if(im)im.removeAttribute('src')}}
+});
 
 async function boot(){
   try{

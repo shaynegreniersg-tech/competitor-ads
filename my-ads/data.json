@@ -12,9 +12,9 @@
     "notes": "Metrics stay null until Shayne asks to connect ad account data. Exclude anything named Cheaper (not Maple Drive). Approval/credit-friendly benefit ads and new iterations must not use “bad credit?” / “Mauvais crédit?” call-outs. Site is public on GitHub Pages. Never use Facebook post IDs for anything operational; Instagram preview URLs are shown only as a View link.",
     "metrics_note": "Top-ad rankings will use Meta dashboard purchase ROAS. Payout ROAS uses updated payouts. Both are stored separately.",
     "how_to_iterate": "Keep the angle, change one variable.",
-    "updated": "2026-11-19T18:57:57-05:00",
+    "updated": "2026-11-23T07:57:38-05:00",
     "creatives": 14,
-    "version": "75a6b0911179"
+    "version": "a5a1593fe4c6"
   },
   "types": {
     "video": [

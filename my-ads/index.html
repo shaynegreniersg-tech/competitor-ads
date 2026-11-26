@@ -142,7 +142,7 @@ footer a{color:inherit}
     <div id="page-switch"></div>
   </div>
   <h1>My ads</h1>
-  <p class="sub">Shayne’s Sep–Nov top performers (around or above 1.0 ROAS, per Shayne), grouped by message angle so we can see whether the classification fits. Performance numbers stay blank — nothing has been pulled from the ad account.</p>
+  <p class="sub">Shayne’s Sep–Nov top performers (per Shayne), grouped by message angle so we can see whether the classification fits. New creatives are added as they go live.</p>
   <div class="stats" id="stats"></div>
 </div></div>
 <div class="controls"><div class="wrap">
@@ -152,9 +152,6 @@ footer a{color:inherit}
     <div class="search"><input id="q" type="search" placeholder="Search name, type, angle, notes…"></div>
     <select id="sort" title="Sort">
       <option value="newest">Sort: newest launch</option>
-      <option value="meta_roas">Sort: Meta purchase ROAS</option>
-      <option value="payout_roas">Sort: payout ROAS</option>
-      <option value="spend">Sort: spend</option>
       <option value="oldest">Sort: oldest launch</option>
       <option value="name">Sort: name</option>
     </select>
@@ -191,9 +188,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const dash='<span class="dash">—</span>';
 const isNum=v=>v!=null && v!=='' && Number.isFinite(Number(v));
 const money=v=>isNum(v)?'$'+Number(v).toLocaleString('en-US',{maximumFractionDigits:0}):null;
-const roas=v=>isNum(v)?Number(v).toFixed(2)+'x':null;
 const pct=v=>isNum(v)?(Number(v)*100).toFixed(1)+'%':null;
-const money2=v=>isNum(v)?'$'+Number(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):null;
 const fmtD=t=>{if(!t)return'—';const d=new Date(t+'T12:00:00');return isNaN(d)?'—':d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
 const orDash=v=>v==null||v===''?dash:esc(v);
 
@@ -224,19 +219,8 @@ function typeOf(c){
   const list=c.format==='video'?D.types.video:D.types.image;
   return (list||[]).find(t=>t.key===c.type)||{key:c.type,label:c.type,color:'#64748b'};
 }
-function chosenRoas(c){
-  const field=(D.meta&&D.meta.watchlist_roas_field)||'meta_roas';
-  const fb=(D.meta&&D.meta.watchlist_roas_fallback_field)||'payout_roas';
-  if(isNum(c[field]))return Number(c[field]);
-  if(isNum(c[fb]))return Number(c[fb]);
-  return null;
-}
 function isWatch(c){
-  const st=c.status;
-  if(st!=='off'&&st!=='paused')return false;
-  const r=chosenRoas(c);
-  const th=Number((D.meta&&D.meta.watchlist_roas_threshold)!=null?D.meta.watchlist_roas_threshold:2);
-  return r!=null && r>=th;
+  return false;
 }
 function searchBlob(c){
   const ads=(c.ads||[]).map(a=>[a.ad_id,a.ad_name,a.adset_name,a.title,a.body,a.region,a.language].join(' ')).join(' ');
@@ -258,9 +242,7 @@ function sortList(list){
   const copy=list.slice();
   const num=(c,k)=>isNum(c[k])?Number(c[k]):-Infinity;
   copy.sort((a,b)=>{
-    if(key==='meta_roas'||key==='payout_roas'||key==='spend'){
-      const d=num(b,key)-num(a,key);if(d)return d;
-    }else if(key==='newest'){
+    if(key==='newest'){
       const d=(b.launch_date||'').localeCompare(a.launch_date||'');if(d)return d;
     }else if(key==='oldest'){
       const d=(a.launch_date||'z').localeCompare(b.launch_date||'z');if(d)return d;
@@ -291,14 +273,12 @@ function renderStats(){
   const vids=all.filter(c=>c.format==='video').length;
   const active=all.filter(c=>c.status==='active').length;
   const watch=all.filter(isWatch).length;
-  const spend=sum(all,'spend');
   const cells=[
     [String(all.length),'Creatives'],
     [String(imgs),'Images'],
     [String(vids),'Videos'],
     [String(active),'Active'],
-    [String(watch),'Watchlist'],
-    [spend==null?'—':money(spend),'Spend']
+    [String(all.filter(c=>c.status==='paused'||c.status==='off').length),'Paused / off']
   ];
   document.getElementById('stats').innerHTML=cells.map(([b,s])=>`<div class="stat"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
 }
@@ -338,15 +318,12 @@ function renderFilters(){
 
 function metricCells(list){
   const n=list.length;
-  const spend=sum(list,'spend');
-  const m=avg(list,'meta_roas');
-  const p=avg(list,'payout_roas');
-  return `<td class="num">${n}</td><td class="num">${spend==null?dash:esc(money(spend))}</td><td class="num">${m==null?dash:esc(roas(m))}</td><td class="num">${p==null?dash:esc(roas(p))}</td>`;
+  return `<td class="num">${n}</td>`;
 }
 
 function renderTables(){
   const all=D.creatives||[];
-  const th=`<thead><tr><th>Name</th><th>Format</th><th class="num">Count</th><th class="num">Spend</th><th class="num">Meta ROAS</th><th class="num">Payout ROAS</th></tr></thead>`;
+  const th=`<thead><tr><th>Name</th><th>Format</th><th class="num">Count</th></tr></thead>`;
 
   const typeRows=[];
   [['video','Video',D.types.video],['image','Image',D.types.image]].forEach(([fmt,flabel,types])=>{
@@ -356,31 +333,30 @@ function renderTables(){
       typeRows.push(`<tr class="${on?'on':''}" data-set-format="${fmt}" data-set-type="${esc(t.key)}"><td><i class="sw" style="--c:${t.color}"></i>${esc(t.label)}</td><td>${flabel}</td>${metricCells(list)}</tr>`);
     });
   });
-  document.getElementById('by-type').innerHTML=`<h2>Summary by type</h2><p class="hint">Count is live. Spend and ROAS show — until metrics are added. Click a row to filter.</p><table class="tbl">${th}<tbody>${typeRows.join('')}</tbody></table>`;
+  document.getElementById('by-type').innerHTML=`<h2>Summary by type</h2><p class="hint">Count is live. Click a row to filter.</p><table class="tbl">${th}<tbody>${typeRows.join('')}</tbody></table>`;
 
   const angleRows=(D.angles||[]).map(a=>{
     const list=all.filter(c=>c.angle===a.key);
     const on=S.angle===a.key;
     return `<tr class="${on?'on':''}" data-set-angle="${esc(a.key)}"><td><i class="sw" style="--c:${a.color}"></i>${esc(a.label)}</td><td></td>${metricCells(list)}</tr>`;
   });
-  const ath=`<thead><tr><th>Angle</th><th></th><th class="num">Count</th><th class="num">Spend</th><th class="num">Meta ROAS</th><th class="num">Payout ROAS</th></tr></thead>`;
+  const ath=`<thead><tr><th>Angle</th><th></th><th class="num">Count</th></tr></thead>`;
   document.getElementById('by-angle').innerHTML=`<h2>Summary by angle</h2><p class="hint">Message angle, independent of type. Click a row to filter.</p><table class="tbl">${ath}<tbody>${angleRows.join('')}</tbody></table>`;
 }
 
 function renderWatch(){
   const flagged=(D.creatives||[]).filter(isWatch);
   const el=document.getElementById('watch');
-  const th=Number((D.meta&&D.meta.watchlist_roas_threshold)!=null?D.meta.watchlist_roas_threshold:2);
   if(!flagged.length){
     el.className='panel p-watch watch empty';
-    el.innerHTML=`<h2>Turned off but profitable</h2>
-      <p class="empty-msg">Nothing to flag yet. This watchlist will list ads that are paused or turned off and still have Meta purchase ROAS (or payout ROAS if Meta ROAS is missing) of ${th.toFixed(1)}x or more — so a profitable creative can’t be switched off and forgotten. It stays empty until performance data is added.</p>`;
+    el.innerHTML=`<h2>Paused or off</h2>
+      <p class="empty-msg">Use the Paused / Off status filter to review creatives that are not currently on. Flagging of strong paused ads is kept off this public page.</p>`;
     return;
   }
   el.className='panel p-watch watch';
   const cards=sortList(flagged).map(cardHTML).join('');
   el.innerHTML=`<h2>Turned off but profitable</h2>
-    <p class="hint">${flagged.length} creative${flagged.length===1?'':'s'} paused or off with ROAS ≥ ${th.toFixed(1)}x. Open one and use Iterate this winner to plan the next version.</p>
+    <p class="hint">${flagged.length} creative${flagged.length===1?'':'s'} paused or off. Open one and use Iterate this winner to plan the next version.</p>
     <div class="grid">${cards}</div>`;
 }
 
@@ -469,7 +445,7 @@ function cardHTML(c){
   const ideas=c.iteration_ideas&&c.iteration_ideas.trim();
   const why=c.angle_reasoning&&c.angle_reasoning.trim();
   const top=c.top_performer;
-  const topLabel=c.top_performer_label||'Top performer (≈1.0+ ROAS, Sep–Nov, per Shayne)';
+  const topLabel=c.top_performer_label||'Top performer (Sep–Nov, per Shayne)';
   const unc=c.unconfirmed;
   const badges=`<span class="badge ${esc(st)}">${esc(st)}</span>`+(top?`<span class="badge top" title="${esc(topLabel)}">Top performer</span>`:'')+(unc?`<span class="badge unc">Unconfirmed</span>`:'');
   const tags=[t.label,a.label,top?topLabel:null,unc?'Unconfirmed':null].filter(Boolean);
@@ -490,14 +466,6 @@ function cardHTML(c){
       ${copyHTML(c)}
       ${c.image_from_build_file?`<p class="file-note">Image from our build file for that date; may differ slightly from the live upload.</p>`:''}
       ${adsHTML(c)}
-      <div class="metrics">
-        <div><span>Spend</span><b>${orDash(money(c.spend))}</b></div>
-        <div><span>Meta ROAS</span><b>${orDash(roas(c.meta_roas))}</b></div>
-        <div><span>Payout ROAS</span><b>${orDash(roas(c.payout_roas))}</b></div>
-        <div><span>CPA</span><b>${orDash(money2(c.cpa))}</b></div>
-        <div><span>CTR</span><b>${orDash(pct(c.ctr))}</b></div>
-        <div><span>Hook rate</span><b>${orDash(pct(c.hook_rate))}</b></div>
-      </div>
       <p class="meta">Launched ${fmtD(c.launch_date)}</p>
       <div class="iterate">
         <h4>Iterate this winner</h4>
